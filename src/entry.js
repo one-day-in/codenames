@@ -3,23 +3,47 @@ import './styles/main.css';
 import { preloadVisualImages } from './utils/preloadImages.js';
 
 // ─── LOADER ────────────────────────────────────────────────────────
+let loaderPending = 1; // initial page bootstrap
+
 function hideLoader() {
     const loader = document.getElementById('loader');
     if (!loader) return;
     if (loader.classList.contains('is-hidden')) return;
+    loader.classList.add('is-hidden');
+}
 
-    const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
-    const glitchDuration = reduceMotion ? 0 : 420;
+function showLoader() {
+    const loader = document.getElementById('loader');
+    if (!loader) return;
+    loader.classList.remove('is-hidden');
+}
 
-    if (!reduceMotion) {
-        loader.classList.add('is-glitch');
+function beginLoading() {
+    loaderPending += 1;
+    showLoader();
+}
+
+function endLoading() {
+    loaderPending = Math.max(0, loaderPending - 1);
+    if (loaderPending === 0) hideLoader();
+}
+
+async function withLoading(task) {
+    beginLoading();
+    try {
+        return await task();
+    } finally {
+        endLoading();
     }
+}
 
-    setTimeout(() => {
-        loader.classList.add('is-hidden');
-        loader.addEventListener('transitionend', () => loader.remove(), { once: true });
-        setTimeout(() => loader.remove(), 900); // fallback якщо transition не спрацює
-    }, glitchDuration);
+function exposeLoaderApi() {
+    window.__nwLoader = {
+        begin: beginLoading,
+        end: endLoading,
+        wrap: withLoading,
+        isActive: () => loaderPending > 0,
+    };
 }
 
 function wait(ms) {
@@ -81,24 +105,23 @@ function ensureGlobalFog() {
         <span class="global-fog__layer global-fog__layer--1"></span>
         <span class="global-fog__layer global-fog__layer--2"></span>
         <span class="global-fog__layer global-fog__layer--3"></span>
-        <span class="global-fog__layer global-fog__layer--4"></span>
-        <span class="global-fog__grain"></span>
     `;
     document.body.appendChild(fog);
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
     ensureGlobalFog();
+    exposeLoaderApi();
 
     const root = document.querySelector('#app');
     if (!root) {
-        hideLoader();
+        endLoading();
         return;
     }
 
     const getInit = pages[document.body.dataset.page];
     if (!getInit) {
-        hideLoader();
+        endLoading();
         return;
     }
 
@@ -109,6 +132,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Page init failed:', error);
     } finally {
         await waitForAppReady(root);
-        hideLoader();
+        endLoading();
     }
 });

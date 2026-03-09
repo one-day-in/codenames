@@ -1,0 +1,99 @@
+/* ─── CELL — база + всі стани і варіанти ролей ──────────────── */
+
+/* ─── BASE ────────────────────────────────── */
+
+.cell {
+    position: relative;
+    aspect-ratio: var(--cell-aspect-ratio, 1 / 1);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    min-width: 0;
+    min-height: 0;
+
+    border-radius: var(--radius-sm);
+    user-select: none;
+
+    background-size: var(--cell-bg-size, cover);
+    background-position: center;
+    background-repeat: no-repeat;
+
+    transition:
+        transform var(--cell-transition-duration) var(--cell-transition-ease),
+        opacity var(--cell-transition-duration) var(--cell-transition-ease);
+}
+
+/* Текст всередині клітинки */
+.cell__content {
+    display: block;
+    max-width: 90%;
+    overflow: hidden;
+    padding: 0 8%;
+
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: var(--cell-content-font-size);
+    /* fitText.js перевизначить inline */
+    text-transform: uppercase;
+    letter-spacing: var(--cell-content-letter-spacing);
+    text-align: center;
+    line-height: 1.2;
+}
+
+/* ─── СТАНИ (state modifiers) ─────────────── */
+
+/* Закрита картка (зворот) */
+.cell--hidden {
+    color: var(--pal-text-disabled);
+    background-image: image-set(url("../../images/cards/shared/card-hidden.png") 1x,
+            url("../../images/cards/shared/card-hidden.png") 2x);
+}
+
+/* Відкрита картка — стилів немає */
+
+/* Guide: відгадані картки затемнюються */
+.guide .cell--revealed {
+    opacity: 0.58;
+    filter: saturate(0.88) brightness(0.92);
+}
+
+/* Guide: резонантні клітинки мають теплий ламповий підсвіт */
+.guide .cell--guide[class*="cell--resonant-"] {
+    box-shadow: inset 0 0 0 2px var(--pal-resonant-a70);
+}
+
+.guide .cell--guide[class*="cell--resonant-"]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, var(--pal-resonant-a40), rgba(0, 0, 0, 0));
+}
+
+.guide .cell--guide[class*="cell--dissonant-"] {
+    box-shadow: inset 0 0 0 2px var(--pal-dissonant-a70);
+}
+
+.guide .cell--guide[class*="cell--dissonant-"]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, var(--pal-dissonant-a40), rgba(0, 0, 0, 0));
+}
+
+/* Клікабельна (хід блукача) */
+.cell--clickable {
+    cursor: pointer;
+}
+
+.cell--clickable:active {
+    transform: scale(0.93);
+    opacity: 0.85;
+}
+
+/* Рольові модифікатори лишені лише для семантики класів.
+   Візуал клітинок зараз нейтральний для всіх ролей. */

@@ -1,0 +1,460 @@
+/* variables.css */
+:root {
+
+  /* ─── DESIGN STANDARDS ───────────────────────────────────── */
+  --border-width-thin: 1px;
+  --border-width-strong: 2px;
+  --radius-control: var(--radius-md);
+  --radius-panel: var(--radius-md);
+
+  /* ─── ТІНІ ────────────────────────────────────────────────── */
+  --shadow-sm: none;
+
+  /* ─── РАДІУСИ ─────────────────────────────────────────────── */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-pill: 50px;
+  --radius-circle: 50%;
+
+  /* ─── ПЕРЕХОДИ ────────────────────────────────────────────── */
+  --transition-fast: 0.2s ease;
+
+  /* ─── ТИПОГРАФІЯ ──────────────────────────────────────────── */
+  --font-family: "EB Garamond", "Times New Roman", serif;
+  --font-title: "EB Garamond", "Times New Roman", serif;
+  --font-ui: "EB Garamond", "Times New Roman", serif;
+
+  --font-md: 1.1rem;
+  --font-3xl: 3.4rem;
+
+  /* ─── ВІДСТУПИ ────────────────────────────────────────────── */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --size-zero: 0px;
+
+  /* ─── РОЗМІРИ UI ──────────────────────────────────────────── */
+  --icon-btn-size: 44px;
+  --icon-btn-size-sm: 40px;
+  --icon-size: 24px;
+  --home-profile-btn-size: 56px;
+  --home-profile-icon-size: 30px;
+  --modal-close-size: 32px;
+  --loader-dot-size: 7px;
+  --loader-dot-gap: 10px;
+  --loader-fade-duration: 0.7s;
+  --loader-top-offset: 0px;
+  --loader-shell-gap: 0.8rem;
+  --loader-title-font: Georgia, "Times New Roman", serif;
+  --loader-title-size: 1.5rem;
+  --loader-title-line-height: 0.92;
+  --loader-title-letter-spacing: 0.22em;
+  --loader-title-opacity: 0.9;
+  --loader-dot-opacity: 0.35;
+
+  /* ─── GLOBAL BACKGROUND ───────────────────────────────────── */
+  --global-bg-image: url("../../images/backgrounds/background.jpg");
+  --global-bg-position: center center;
+  --global-bg-size: cover;
+  --global-bg-opacity: 1;
+
+  /* ─── LOADER SMOKE SOURCES ────────────────────────────────── */
+  --fog-layer-1-image: url("../../images/fog/fog-layer-1.png");
+  --fog-layer-2-image: url("../../images/fog/fog-layer-2.png");
+  --fog-layer-3-image: url("../../images/fog/fog-layer-3.png");
+  --fog-layer-1-opacity: 0.22;
+  --fog-layer-2-opacity: 0.18;
+  --fog-layer-3-opacity: 0.14;
+  --fog-layer-1-blur: 3px;
+  --fog-layer-2-blur: 5px;
+  --fog-layer-3-blur: 6px;
+  --fog-layer-1-scale: 1.14;
+  --fog-layer-2-scale: 1.2;
+  --fog-layer-3-scale: 1.22;
+  --fog-layer-1-duration: 42s;
+  --fog-layer-2-duration: 56s;
+  --fog-layer-3-duration: 68s;
+
+  /* ─── SAFE AREA + UI OFFSETS (mobile app/webview tuning) ───── */
+  --safe-area-right: env(safe-area-inset-right, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-left: env(safe-area-inset-left, 0px);
+
+  /* Global adjustable offsets for HUD/buttons over safe area */
+  --ui-offset-top: 0px;
+  --ui-offset-right: 0px;
+  --ui-offset-bottom: 0px;
+  --ui-offset-left: 0px;
+
+  --ui-edge-top: calc(var(--safe-area-top) + var(--space-sm) + var(--ui-offset-top));
+  --ui-edge-right: calc(var(--safe-area-right) + var(--space-sm) + var(--ui-offset-right));
+  --ui-edge-bottom: calc(var(--safe-area-bottom) + var(--space-sm) + var(--ui-offset-bottom));
+  --ui-edge-left: calc(var(--safe-area-left) + var(--space-sm) + var(--ui-offset-left));
+
+  /* Game/guide panel tuning knobs */
+  --score-offset-top: 0px;
+
+
+  --game-footer-h: 56px;
+
+  /* ─── SCREEN LAYOUT TOKENS (header/body/footer) ───────────── */
+  --screen-header-pad-top: 6px;
+  --screen-header-pad-x: 8px;
+  --screen-footer-gap: clamp(10px, 1.8vw, 16px);
+  --screen-footer-pad-x: 8px;
+  --screen-control-gap: clamp(8px, 1.5vw, 12px);
+  --screen-control-pad: clamp(6px, 0.9vh, 10px);
+  --grid-page-pad-x: clamp(50px, 10vw, 250px);
+
+  /* ─── GAME SCREEN TOKENS ───────────────────────────────────── */
+  --game-grid-reserve-side: clamp(54px, 6.5vw, 86px);
+  --game-score-min-h: clamp(54px, 6.4dvh, 74px);
+  --game-score-gap: clamp(10px, 1.8vw, 16px);
+  --game-score-pad: clamp(8px, 1.2vh, 12px);
+  --game-score-font-size: clamp(1.18rem, 2.8vw, 1.62rem);
+  --game-score-letter-spacing: clamp(1px, 0.2vw, 2px);
+  --game-score-max-width: min(90vw, 680px);
+  --game-score-item-pad-x: clamp(0.95rem, 2vw, 1.25rem);
+
+  --game-qr-mobile-gap: 10px;
+
+  --gameover-banner-top: calc(var(--safe-area-top) + 64px + var(--space-sm));
+
+  /* ─── HOMEPAGE SIZE TOKENS ────────────────────────────────── */
+  --home-lang-gap: 0.5rem;
+  --home-lang-margin-top: clamp(14px, 2.2vw, 26px);
+  --home-lang-btn-min-h: 58px;
+  --home-lang-btn-min-w: 82px;
+  --home-lang-btn-pad-x: 1.35rem;
+  --home-lang-btn-font-size: clamp(0.95rem, 1.6vw, 1.12rem);
+  --home-lang-btn-radius: var(--radius-control);
+  --home-layout-gap: clamp(18px, 3vh, 32px);
+  --home-title-wrap-radius: var(--radius-panel);
+  --home-title-font-size: clamp(3rem, 9vw, 6.8rem);
+  --home-actions-gap: clamp(1.1rem, 2.1vw, 1.6rem);
+  --home-actions-pad: clamp(1.25rem, 2.8vw, 2rem);
+  --home-actions-width: min(92vw, 560px);
+  --home-btn-min-h: 58px;
+  --home-btn-pad-x: clamp(1.7rem, 4vw, 2.6rem);
+  --home-btn-font-size: clamp(1.08rem, 2.2vw, 1.42rem);
+  --home-google-width: min(92vw, 500px);
+  --home-actions-margin-top: 5vh;
+
+  /* ─── HOME MOBILE SIZE TOKENS ─────────────────────────────── */
+  --home-mobile-layout-top-offset: 18vh;
+  --home-mobile-layout-gap: clamp(14px, 2.4vh, 24px);
+  --home-mobile-lang-margin-top: clamp(10px, 3vw, 14px);
+  --home-mobile-lang-gap: 0.35rem;
+  --home-mobile-lang-pad: 0.25rem;
+  --home-mobile-lang-btn-min-h: 52px;
+  --home-mobile-lang-btn-min-w: 70px;
+  --home-mobile-lang-btn-pad-x: 1rem;
+  --home-mobile-lang-btn-font-size: clamp(0.86rem, 3.2vw, 1rem);
+  --home-mobile-title-size: clamp(2.35rem, 10.8vw, 4rem);
+  --home-mobile-btn-font-size: clamp(1rem, 4.4vw, 1.24rem);
+  --home-mobile-btn-pad-x: 1.2rem;
+  --home-mobile-actions-width: min(96vw, 460px);
+  --home-mobile-actions-pad: clamp(0.85rem, 3.2vw, 1rem);
+  --home-mobile-actions-gap: clamp(0.75rem, 3vw, 1rem);
+  --home-mobile-actions-margin-top: clamp(16px, 4vh, 24px);
+  --home-small-inline-pad: clamp(10px, 3vw, 14px);
+  --home-small-actions-pad: 0.75rem;
+  --home-small-actions-gap: 0.7rem;
+  --home-small-btn-min-h: 50px;
+  --home-small-btn-font-size: clamp(0.9rem, 4.1vw, 1rem);
+
+  /* ─── CELL TOKENS ──────────────────────────────────────────── */
+  --cell-transition-ease: ease;
+  --cell-content-font-size: 1rem;
+  --cell-content-letter-spacing: 0.5px;
+
+  /* ─── MODAL TOKENS (single standard) ───────────────────────── */
+  --modal-overlay-blur: 0px;
+  --modal-surface-bg:
+    linear-gradient(180deg, transparent, transparent),
+    transparent;
+  --modal-surface-border: 0 solid transparent;
+  --modal-surface-shadow: none;
+  --modal-surface-radius: var(--radius-panel);
+  --modal-surface-blur: 0px;
+
+  --modal-qr-max-width: 90dvw;
+  --modal-qr-close-font-size: 1rem;
+
+  --modal-confirm-width: min(94vw, 40vw);
+  --modal-confirm-min-height: 35vh;
+  --modal-confirm-gap: clamp(14px, 1.8vw, 22px);
+  --modal-confirm-pad: clamp(1.2rem, 2.6vw, 1.8rem);
+  --modal-confirm-title-size: clamp(1.1rem, 1.6vw, 1.4rem);
+  --modal-confirm-title-letter-spacing: 0.1em;
+  --modal-confirm-title-shadow: none;
+  --modal-confirm-text-size: clamp(0.95rem, 1.25vw, 1.08rem);
+  --modal-confirm-actions-gap: clamp(10px, 1.2vw, 14px);
+  --modal-confirm-btn-min-h: 54px;
+  --modal-confirm-btn-pad-x: clamp(0.9rem, 1.2vw, 1.25rem);
+  --modal-confirm-btn-font-size: clamp(0.92rem, 1.2vw, 1.04rem);
+  --modal-confirm-btn-width: min(100%, 420px);
+  --modal-confirm-btn-radius: var(--radius-control);
+  --modal-confirm-btn-letter-spacing: 0.08em;
+  --modal-confirm-btn-active-transform: translateY(0) scale(0.98);
+  --modal-confirm-mobile-height: 38vh;
+  --modal-confirm-mobile-width: min(95vw, 520px);
+  --modal-confirm-mobile-pad: 1rem;
+  --modal-confirm-mobile-gap: 12px;
+  --modal-confirm-mobile-actions-gap: 10px;
+  --modal-confirm-mobile-btn-min-h: 48px;
+  --modal-confirm-mobile-btn-letter-spacing: 0.05em;
+
+  --modal-game-qr-width: 80vw;
+  --modal-game-qr-height: 80vh;
+  --modal-game-qr-pad: clamp(8px, 2vh, 22px);
+  --modal-game-qr-border: 0 solid transparent;
+  --modal-game-qr-bg: transparent;
+  --modal-game-qr-shadow: none;
+  --modal-game-qr-width-mobile: 92vw;
+  --modal-game-qr-height-mobile: 76vh;
+  --modal-game-qr-pad-mobile: 8px;
+
+  /* ─── GRID ────────────────────────────────────────────────── */
+  --grid-gap: clamp(3px, 1vw, 8px);
+  --grid-gap-sm: clamp(2px, 0.8vw, 4px);
+  --grid-pad: clamp(1%, 3.5vw, 3%);
+
+  /* ─── ІНДИКАТОРИ / SCOREBOARD ────────────────────────────── */
+  --indicator-border: 0 solid transparent;
+  --indicator-radius: var(--radius-pill);
+  --indicator-shadow: none;
+
+  --score-team-border: 0 solid transparent;
+  --score-team-shadow: none;
+  --score-item-border: 0 solid transparent;
+
+  --guide-btn-gap: clamp(4px, 1.5vw, 10px);
+  --guide-btn-panel-width: min(90vw, 560px);
+  --guide-btns-margin-top: clamp(8px, 1.4vh, 14px);
+  --guide-footer-gap: clamp(10px, 2vw, 16px);
+  --walker-footer-gap: clamp(12px, 2.2vw, 18px);
+  --guide-footer-max-width: min(96vw, 760px);
+  --walker-footer-max-width: min(96vw, 560px);
+  --guide-mobile-btns-max-width: min(96vw, 520px);
+  --guide-mobile-btns-margin-top: clamp(6px, 1.6vh, 10px);
+  --guide-btn-min-size: clamp(36px, 9vw, 52px);
+  --guide-btn-font-size: clamp(0.8rem, 3vw, 1rem);
+  --guide-btn-panel-width-landscape-wide: min(84vw, 760px);
+  --guide-btn-min-height-landscape: clamp(28px, 6vw, 42px);
+  --guide-btn-font-size-landscape: clamp(0.7rem, 2.5vw, 0.9rem);
+  --guide-hint-size: clamp(0.74rem, 1.05vw, 0.86rem);
+  --guide-hint-mobile-size: clamp(0.68rem, 2.6vw, 0.8rem);
+  --guide-title-letter-spacing: 0.1em;
+  --turn-title-shadow-active: none;
+  --guide-hint-letter-spacing: 0.03em;
+  --guide-num-btn-hover-shadow: none;
+  --guide-num-btn-selected-border: 0 solid transparent;
+  --guide-num-btn-selected-shadow: none;
+
+  --walker-header-gap: clamp(8px, 1.2vh, 12px);
+  --walker-header-pad-x: clamp(12px, 1.8vw, 18px);
+  --walker-header-title-size-lg: clamp(1.05rem, 2vw, 1.38rem);
+  --walker-header-title-spacing: 0.1em;
+  --walker-header-info-size: clamp(0.84rem, 1.3vw, 1rem);
+  --walker-header-actions-gap: clamp(10px, 1.8vw, 14px);
+  --walker-header-end-size: clamp(0.82rem, 1.25vw, 0.96rem);
+  --walker-header-refresh-size: clamp(20px, 2.1vw, 24px);
+  --walker-header-mobile-gap: 6px;
+  --walker-header-mobile-pad-x: 10px;
+  --walker-header-mobile-title-size-lg: clamp(0.96rem, 4vw, 1.2rem);
+  --walker-header-mobile-info-size: clamp(0.78rem, 2.9vw, 0.92rem);
+  --walker-header-mobile-end-size: clamp(0.75rem, 2.8vw, 0.9rem);
+  --walker-header-mobile-refresh-size: clamp(18px, 5vw, 22px);
+  --walker-turn-letter-spacing: 0.08em;
+  --walker-end-min-height: 40px;
+  --walker-end-min-width: 64px;
+  --walker-end-letter-spacing: 0.1em;
+  --walker-refresh-min-size: 40px;
+  --walker-end-min-height-mobile: 36px;
+  --walker-end-min-width-mobile: 58px;
+  --walker-refresh-min-size-mobile: 36px;
+
+  /* ─── SHARED GAME BUTTONS ─────────────────────────────────── */
+  --game-btn-border: 0 solid transparent;
+  --game-btn-border-hover: 0 solid transparent;
+  --game-btn-border-active: 0 solid transparent;
+  --game-btn-shadow: none;
+  --game-btn-shadow-hover: none;
+  --game-btn-focus: none;
+  --game-btn-glow: none;
+  --game-btn-glow-active: none;
+  --game-btn-radius: var(--radius-control);
+  --btn-inset-shadow-base: none;
+  --btn-inset-shadow-hover: none;
+  --btn-inset-shadow-active: none;
+  --home-auth-border-line: 0 solid transparent;
+
+  /* ─── VIEWPORT TOKENS ─────────────────────────────────────── */
+  --viewport-min-height: 100dvh;
+  --viewport-min-width: 100dvw;
+
+  /* ─── HOME MOTION TOKENS ──────────────────────────────────── */
+  --home-intro-title-transform-start: translateY(-8px) scale(1.22);
+  --home-intro-title-transform-mid: translateY(0) scale(0.99);
+  --home-intro-title-transform-end: translateY(0) scale(1);
+  --home-intro-title-blur-start: blur(18px);
+  --home-intro-title-blur-mid: blur(0.25px);
+  --home-intro-title-blur-end: blur(0);
+  --home-intro-controls-transform-start: translateY(10px) scale(0.99);
+  --home-intro-controls-transform-end: translateY(0) scale(1);
+  --home-intro-controls-blur-start: blur(6px);
+  --home-intro-controls-blur-end: blur(0);
+  --home-lang-toggle-pad: 0.2rem;
+  --home-lang-transition: 0.24s ease;
+  --home-lang-hover-brightness: 1.04;
+  --home-lang-active-brightness-hover: 1.12;
+  --home-eye-opacity-max: 0.15;
+  --home-eye-shadow: none;
+  --home-title-letter-spacing: 0.22em;
+  --home-title-line-height: 0.92;
+  --home-title-main-shadow: none;
+  --home-title-glitch-shadow-a: none;
+  --home-title-glitch-shadow-b: none;
+  --home-title-glitch-transform-neg: translate3d(-1px, 0, 0);
+  --home-title-glitch-transform-pos: translate3d(1px, 0, 0);
+  --home-title-glitch-duration: 4.2s;
+  --home-btn-letter-spacing: 0.08em;
+  --home-btn-hover-shift: translateY(-1px);
+  --home-btn-hover-glow: none;
+  --home-google-gap: clamp(10px, 1.3vw, 14px);
+  --home-google-bg: transparent;
+  --home-google-shadow: none;
+  --home-google-hover-bg: transparent;
+  --home-google-hover-shadow: none;
+  --home-google-icon-size: clamp(18px, 1.6vw, 24px);
+  --home-google-icon-size-mobile: 20px;
+  --home-google-text-letter-spacing: 0.03em;
+  --home-mobile-title-letter-spacing: 0.16em;
+  --home-small-btn-letter-spacing: 0.06em;
+  --home-mobile-btn-min-h: 54px;
+  --home-btn-text-shadow: none;
+
+  /* ─── UI TOKENS ────────────────────────────────────────────── */
+  --ui-btn-icon-hover-shadow: none;
+  --home-logout-shadow: none;
+  --qr-group-title-size: clamp(0.75rem, 2vw, 0.95rem);
+  --qr-group-title-letter-spacing: 3px;
+  --qr-panel-label-size: clamp(0.65rem, 1.5vw, 0.8rem);
+  --qr-panel-label-letter-spacing: 1px;
+  --qr-check-size: 1.2rem;
+  --screen-control-border: 0 solid transparent;
+  --screen-control-shadow: none;
+  --screen-control-blur: 0px;
+
+  /* ─── GAME QR TOKENS ──────────────────────────────────────── */
+  --game-qr-caption-size: clamp(0.62rem, 1.05vw, 0.78rem);
+  --game-qr-caption-letter-spacing: 0.08em;
+  --game-qr-caption-opacity: 0.9;
+  --game-qr-hint-size: clamp(0.72rem, 0.95vw, 0.84rem);
+  --game-qr-hint-letter-spacing: 0.03em;
+  --game-qr-hint-opacity: 0.88;
+  --game-qr-columns-gap: clamp(16px, 3.2vw, 42px);
+  --game-qr-team-border: 0 solid transparent;
+  --game-qr-team-inset-shadow: none;
+  --game-qr-team-bg: transparent;
+  --game-qr-team-title-margin-bottom: 8px;
+  --game-qr-team-title-size: clamp(1rem, 2.1vw, 1.55rem);
+  --game-qr-team-title-letter-spacing: 0.12em;
+  --game-qr-team-title-line-height: 1.05;
+  --game-qr-cards-gap: clamp(12px, 2vh, 20px);
+  --game-qr-card-gap: 6px;
+  --game-qr-card-pad: 8px;
+  --game-qr-card-border: 0 solid transparent;
+  --game-qr-card-bg: transparent;
+  --game-qr-card-shadow: none;
+  --game-qr-card-team-shadow: none;
+  --game-qr-image-border-team: 0 solid transparent;
+  --game-qr-image-shadow-team: none;
+  --game-qr-code-radius: var(--radius-control);
+  --game-qr-role-size: clamp(0.9rem, 1.25vw, 1.08rem);
+  --game-qr-role-letter-spacing: 0.1em;
+  --game-qr-role-gap: 8px;
+  --game-qr-role-pad-top: 2px;
+  --game-qr-role-eye-connected-shadow: none;
+  --game-qr-role-eye-size: 1.45em;
+  --game-score-item-min-width: 5.6em;
+  --game-score-item-active-transform: translateY(-1px) scale(1.06);
+  --game-score-item-active-shadow: none;
+  --game-score-item-active-team-shadow: none;
+  --game-qr-role-eye-connected-shadow-team: none;
+  --gameover-banner-pad: 0.5rem 1rem;
+  --gameover-banner-font-size: clamp(0.75rem, 2vw, 1rem);
+  --gameover-banner-letter-spacing: 2px;
+  --game-qr-columns-gap-mobile: 8px;
+  --game-qr-cards-gap-mobile: 10px;
+  --game-score-width-mobile: min(94vw, 460px);
+  --game-score-font-size-mobile: clamp(0.9rem, 3.2vw, 1.06rem);
+  --grid-page-pad-x-mobile: clamp(18px, 4vw, 32px);
+  --grid-page-pad-y-mobile: clamp(18px, 3.4vh, 30px);
+
+  /* ─── STATUS SCREEN TOKENS ─────────────────────────────────── */
+  --awake-title-size: clamp(0.9rem, 3vw, 1.4rem);
+  --awake-title-letter-spacing: 5px;
+  --awake-awakening-size: clamp(1.4rem, 6vw, 3rem);
+  --awake-awakening-letter-spacing: 2px;
+  --awake-role-size: clamp(0.85rem, 2.5vw, 1.1rem);
+  --awake-role-letter-spacing: 2px;
+  --awake-btn-pad: clamp(12px, 3vw, 18px) clamp(28px, 6vw, 56px);
+  --awake-btn-size: clamp(0.85rem, 2.5vw, 1.1rem);
+  --awake-btn-letter-spacing: 2px;
+  --waiting-title-size: clamp(1.2rem, 4vw, 2rem);
+  --waiting-title-letter-spacing: 4px;
+  --error-size: clamp(0.9rem, 2.5vw, 1.1rem);
+
+  /* ─── FOUNDATION TOKENS ────────────────────────────────────── */
+  --btn-blur: 7px;
+  --btn-hover-shift: translateY(-1px);
+
+  /* ─── Compatibility Defaults (runtime + calc safety) ─────── */
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --screen-footer-pad-y: clamp(6px, 0.9vh, 10px);
+  --cell-aspect-ratio: 1 / 1;
+  --cell-bg-size: cover;
+  --cell-transition-duration: 120ms;
+  --grid-page-pad-y: clamp(50px, 8vh, 180px);
+  --grid-inner-pad: var(--grid-pad);
+  --grid-reserve-top: 0px;
+  --grid-reserve-right: 0px;
+  --grid-reserve-bottom: 0px;
+  --grid-reserve-left: 0px;
+  --home-layout-top-offset: 20vh;
+  --home-btn-pad-y: 0.95rem;
+  --home-lang-btn-pad-y: 0.7rem;
+  --home-lang-active-border-size: 0px;
+  --home-lang-active-ring-size: 2px;
+  --home-lang-active-glow-size: 0px;
+  --home-lang-active-shadow-y: 0;
+  --home-lang-active-shadow-blur: 0;
+  --home-lang-hover-shadow-size: 0;
+  --home-mobile-btn-pad-y: 0.95rem;
+  --home-mobile-lang-btn-pad-y: 0.65rem;
+  --home-fullscreen-idle-opacity: 0.42;
+  --ui-hint-size: clamp(0.74rem, 1.02vw, 0.86rem);
+  --ui-hint-size-mobile: clamp(0.68rem, 2.6vw, 0.8rem);
+  --ui-hint-letter-spacing: 0.03em;
+  --ui-hint-line-height: 1.3;
+  --ui-hint-weight: 500;
+  --ui-hint-opacity: 0.82;
+  --ui-hint-opacity-muted: 0.6;
+  --walker-header-pad-y: clamp(8px, 1.4vh, 12px);
+  --walker-header-mobile-pad-y: 8px;
+  --game-qr-team-title-shadow: none;
+  --game-score-item-pad-y: clamp(0.62rem, 1.1vh, 0.82rem);
+  --eye-size: 24px;
+  --eye-left: 50%;
+  --eye-top: 50%;
+  --eye-delay: 0s;
+  --eye-period: 4.5s;
+  --eye-alpha: 0.12;
+  --_avail-w: 0px;
+  --_avail-h: 0px;
+  --_grid-square-size: 0px;
+}

@@ -1,14 +1,22 @@
 /* main.css */
-@import url('./variables.css');
-@import url('./foundation.css');
-@import url('./loader.css');
-@import url('./grid.css');
-@import url('./cell.css');
-@import url('./screen-layout.css');
-@import url('./game-layout.css');
-@import url('./status-screens.css');
-@import url('./guide.css');
-@import url('./walker.css');
-@import url('./ui.css');
-@import url('./responsive.css');
-@import url('./homepage.css');
+/* Core */
+@import url('./core/colors.css');
+@import url('./core/variables.css');
+@import url('./core/foundation.css');
+@import url('./loader/loader.css');
+
+/* Layout */
+@import url('./layout/grid.css');
+@import url('./layout/cell.css');
+@import url('./layout/screen-layout.css');
+
+/* Screens */
+@import url('./screens/game.css');
+@import url('./screens/status.css');
+@import url('./screens/guide.css');
+@import url('./screens/walker.css');
+@import url('./screens/home.css');
+@import url('./ui/components.css');
+
+/* Adaptive */
+@import url('./layout/responsive.css');

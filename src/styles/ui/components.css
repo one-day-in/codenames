@@ -20,11 +20,11 @@
 /* ─── GLASS ICON BUTTON ───────────────────────────────────────── */
 
 .btn-icon {
-    background: var(--glass-bg);
-    backdrop-filter: blur(var(--glass-blur));
-    border: 1px solid var(--glass-border);
+    background: transparent;
+    backdrop-filter: blur(0px);
+    border: 0 solid transparent;
     border-radius: var(--radius-sm);
-    color: var(--glass-color);
+    color: var(--pal-text-secondary);
     cursor: pointer;
     transition: background var(--transition-fast),
         border-color var(--transition-fast),
@@ -33,10 +33,10 @@
 }
 
 .btn-icon:hover {
-    background: var(--glass-bg-hover);
-    border-color: var(--glass-border-hover);
-    color: var(--glass-color-hover);
-    box-shadow: 0 0 20px var(--modal-border);
+    background: transparent;
+    border-color: transparent;
+    color: var(--pal-text-main);
+    box-shadow: var(--ui-btn-icon-hover-shadow);
 }
 
 .btn-icon:active {
@@ -74,8 +74,9 @@ body[data-page="home"] .fullscreen-btn:focus-visible {
     opacity: 1;
 }
 
-/* Кнопка профілю — правий верхній кут */
-.btn-profile {
+/* Кнопка logout/profile — правий верхній кут */
+.btn-profile,
+.btn-logout {
     position: absolute;
     top: var(--ui-edge-top);
     right: var(--ui-edge-right);
@@ -88,14 +89,33 @@ body[data-page="home"] .fullscreen-btn:focus-visible {
     height: var(--icon-btn-size);
 }
 
-body[data-page="home"] .btn-profile {
+body[data-page="home"] .btn-profile,
+body[data-page="home"] .btn-logout {
+    position: fixed;
+    top: var(--ui-edge-top);
+    right: var(--ui-edge-right);
+    z-index: 140;
     width: var(--home-profile-btn-size);
     height: var(--home-profile-btn-size);
+    opacity: 1;
+    visibility: visible;
+    color: var(--pal-white);
+    background: transparent;
+    border: var(--home-auth-border-line);
+    box-shadow: var(--home-logout-shadow);
 }
 
-body[data-page="home"] .btn-profile svg {
+body[data-page="home"] .btn-profile svg,
+body[data-page="home"] .btn-logout svg {
     width: var(--home-profile-icon-size);
     height: var(--home-profile-icon-size);
+}
+
+body[data-page="home"] .btn-logout:hover,
+body[data-page="home"] .btn-logout:focus-visible {
+    background: transparent;
+    border-color: transparent;
+    color: var(--pal-white);
 }
 
 /* Кнопка «назад / logout» (у footer і на home) */
@@ -122,9 +142,9 @@ body[data-page="home"] .btn-profile svg {
 }
 
 .qr-panel__group-title {
-    font-size: clamp(0.75rem, 2vw, 0.95rem);
+    font-size: var(--qr-group-title-size);
     font-weight: 700;
-    letter-spacing: 3px;
+    letter-spacing: var(--qr-group-title-letter-spacing);
     text-transform: uppercase;
     margin: 0;
 }
@@ -153,14 +173,14 @@ body[data-page="home"] .btn-profile svg {
 }
 
 .qr-panel__label {
-    font-size: clamp(0.65rem, 1.5vw, 0.8rem);
-    letter-spacing: 1px;
+    font-size: var(--qr-panel-label-size);
+    letter-spacing: var(--qr-panel-label-letter-spacing);
     text-transform: uppercase;
     margin: 0;
 }
 
 .qr-panel__check {
-    font-size: 1.2rem;
+    font-size: var(--qr-check-size);
 }
 
 /* ─── QR MODAL ────────────────────────────────────────────────── */
@@ -187,12 +207,12 @@ body[data-page="home"] .btn-profile svg {
     align-items: center;
     gap: var(--space-md);
     padding: var(--space-xl);
-    max-width: 90dvw;
-    border-radius: var(--radius-md);
-    background: var(--panel-float);
-    border: 1px solid var(--gray-700);
-    box-shadow: var(--shadow-lg);
-    backdrop-filter: blur(var(--glass-blur));
+    max-width: var(--modal-qr-max-width);
+    border-radius: var(--modal-surface-radius);
+    background: var(--modal-surface-bg);
+    border: var(--modal-surface-border);
+    box-shadow: var(--modal-surface-shadow);
+    backdrop-filter: blur(var(--modal-surface-blur));
 }
 
 .qr-modal__close {
@@ -205,7 +225,7 @@ body[data-page="home"] .btn-profile svg {
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-sm);
-    font-size: 1rem;
+    font-size: var(--modal-qr-close-font-size);
 }
 
 /* ─── CONFIRM MODAL (home new game) ───────────────────────────── */
@@ -223,124 +243,103 @@ body[data-page="home"] .btn-profile svg {
 .confirm-modal__backdrop {
     position: absolute;
     inset: 0;
-    background: var(--modal-backdrop);
-    backdrop-filter: blur(2px);
+    background: var(--pal-modal-overlay);
+    backdrop-filter: blur(var(--modal-overlay-blur));
 }
 
 .confirm-modal__content {
     position: relative;
     z-index: 1;
+    min-height: var(--modal-confirm-min-height);
     width: var(--modal-confirm-width);
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: var(--modal-confirm-gap);
     padding: var(--modal-confirm-pad);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--modal-border);
-    background:
-        linear-gradient(180deg, var(--modal-grad-top), var(--modal-grad-bottom)),
-        var(--panel-float);
-    box-shadow: 0 20px 50px var(--modal-shadow);
+    border-radius: var(--modal-surface-radius);
+    border: var(--modal-surface-border);
+    background: var(--modal-surface-bg);
+    box-shadow: var(--modal-surface-shadow);
 }
 
 .confirm-modal__title {
     margin: 0;
     font-size: var(--modal-confirm-title-size);
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: var(--modal-confirm-title-letter-spacing);
     text-transform: uppercase;
+    text-align: center;
+    color: var(--pal-text-main);
+    text-shadow: var(--modal-confirm-title-shadow);
 }
 
 .confirm-modal__text {
     margin: 0;
-    color: var(--text-secondary);
-    font-size: var(--modal-confirm-text-size);
-    line-height: 1.45;
+    color: var(--pal-text-secondary);
+    font-size: var(--ui-hint-size);
+    line-height: var(--ui-hint-line-height);
+    letter-spacing: var(--ui-hint-letter-spacing);
+    font-weight: var(--ui-hint-weight);
+    font-style: italic;
+    opacity: var(--ui-hint-opacity);
+    text-align: center;
+    text-wrap: balance;
+    text-transform: none;
 }
 
 .confirm-modal__actions {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--space-sm);
+    grid-template-columns: 1fr;
+    gap: var(--modal-confirm-actions-gap);
+    justify-items: center;
+    margin-top: 0;
 }
 
 .confirm-modal__btn {
+    width: var(--modal-confirm-btn-width);
     min-height: var(--modal-confirm-btn-min-h);
     padding-inline: var(--modal-confirm-btn-pad-x);
     font-size: var(--modal-confirm-btn-font-size);
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: var(--modal-confirm-btn-letter-spacing);
     text-transform: uppercase;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    border-radius: var(--modal-confirm-btn-radius);
+    transition:
+        transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        border-color var(--transition-fast),
+        background var(--transition-fast),
+        color var(--transition-fast);
+}
+
+.confirm-modal__btn:active {
+    transform: var(--modal-confirm-btn-active-transform);
 }
 
 @media (max-width: 720px) {
     .confirm-modal__content {
-        width: min(95vw, 520px);
-        padding: 1rem;
-        gap: 12px;
+        min-height: var(--modal-confirm-min-height);
+        height: var(--modal-confirm-mobile-height);
+        width: var(--modal-confirm-mobile-width);
+        padding: var(--modal-confirm-mobile-pad);
+        gap: var(--modal-confirm-mobile-gap);
     }
 
     .confirm-modal__actions {
-        gap: 10px;
+        gap: var(--modal-confirm-mobile-actions-gap);
     }
 
     .confirm-modal__btn {
-        min-height: 48px;
-        font-size: clamp(0.8rem, 3.1vw, 0.94rem);
-        letter-spacing: 0.05em;
+        min-height: var(--modal-confirm-mobile-btn-min-h);
+        font-size: var(--home-mobile-btn-font-size);
+        letter-spacing: var(--modal-confirm-mobile-btn-letter-spacing);
     }
-}
 
-/* ─── NEW GAME LOADING MODAL ───────────────────────────────────── */
-
-.newgame-loading-modal {
-    position: fixed;
-    inset: 0;
-    z-index: 130;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-lg);
-}
-
-.newgame-loading-modal__backdrop {
-    position: absolute;
-    inset: 0;
-    background: var(--modal-loading-backdrop);
-    backdrop-filter: blur(3px);
-}
-
-.newgame-loading-modal__content {
-    position: relative;
-    z-index: 1;
-    width: var(--modal-loading-width);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-sm);
-    padding: var(--modal-loading-pad);
-    border-radius: var(--radius-md);
-    border: 1px solid var(--modal-border-strong);
-    background:
-        linear-gradient(180deg, var(--modal-grad-top-strong), var(--modal-grad-bottom-strong)),
-        var(--panel-float);
-    box-shadow: 0 20px 50px var(--modal-shadow-strong);
-}
-
-.newgame-loading-modal__title {
-    margin: 0;
-    font-size: var(--modal-loading-title-size);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-
-.newgame-loading-modal__text {
-    margin: 0;
-    color: var(--text-secondary);
-    font-size: var(--modal-loading-text-size);
-    text-align: center;
+    .confirm-modal__text {
+        font-size: var(--ui-hint-size-mobile);
+    }
 }

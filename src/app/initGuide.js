@@ -4,6 +4,7 @@ import { onOrientationChange } from '../utils/resize.js';
 import { getGuideCellClass } from '../utils/renderCell.js';
 import { t, DEFAULT_LANGUAGE, getTeamName } from '../utils/i18n.js';
 import { escapeHtml } from '../utils/sanitize.js';
+import { ICONS } from '../utils/icons.js';
 import { initGuestPage } from './initGuestPage.js';
 
 const MAX_HINT_BTNS = 8;
@@ -32,8 +33,13 @@ export async function initGuide(root) {
         const guideLocked = turn.guideLimit !== null;
         const canAct = isMyTurn && !guideLocked && !state.gameOver;
 
-        const playerTitle = `${getTeamName(team, lang)} ${tr.guide}`;
-        const hintText = tr.chooseLimit;
+        document.body.classList.remove('team-resonant', 'team-dissonant');
+        document.body.classList.add(`team-${team}`);
+
+        const teamTitle = getTeamName(team, lang);
+        const guideStatus = canAct
+            ? `${tr.guide}: ${tr.chooseLimit}`
+            : `${tr.guide}: ${ICONS.eyeClosed}`;
 
         const btnHTML = Array.from({ length: MAX_HINT_BTNS }, (_, i) => {
             const n = i + 1;
@@ -52,8 +58,8 @@ export async function initGuide(root) {
         <div class="screen-layout guide-layout">
             <header class="screen-header">
                 <div class="guide__header">
-                    <div class="guide__title ${canAct ? 'guide__title--active' : 'guide__title--muted'}">${playerTitle}</div>
-                    <div class="guide__hint">${hintText}</div>
+                    <div class="guide__title ${canAct ? 'guide__title--active' : 'guide__title--muted'}">${teamTitle}</div>
+                    <div class="guide__meta ${canAct ? 'guide__meta--active' : 'guide__meta--muted'}">${guideStatus}</div>
                     <div class="guide__btns ${canAct ? 'guide__btns--active' : 'guide__btns--muted'}">${btnHTML}</div>
                 </div>
             </header>

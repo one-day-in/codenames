@@ -17,7 +17,7 @@ const PREVIEW_NAV_CSS = `
     display: flex;
     gap: 6px;
     padding: 8px;
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(217, 28, 28, 0.9);
     backdrop-filter: blur(10px);
     border-top: 1px solid rgba(255, 255, 255, 0.12);
     overflow-x: auto;
@@ -27,6 +27,7 @@ const PREVIEW_NAV_CSS = `
     min-height: 34px;
     padding: 6px 12px;
     border-radius: 8px;
+     border 1px solid rgb(248, 240, 240);
     font-family: monospace;
     font-size: 11px;
     font-weight: 700;
@@ -34,14 +35,14 @@ const PREVIEW_NAV_CSS = `
     text-transform: uppercase;
 }
 .preview-nav__btn--active {
-    border-color: var(--resonant-light);
+    border-color: var(--pal-team-light);
     box-shadow: 0 0 16px rgba(255, 223, 174, 0.28);
 }
 .preview-clickable .cell {
     cursor: pointer;
 }
 .preview-clickable .cell:hover {
-    outline: 1px solid rgba(255, 255, 255, 0.3);
+    outline: 1px solid rgba(255, 255, 255, 0.9);
     outline-offset: -1px;
 }
 `;
@@ -52,7 +53,9 @@ const SCREENS = [
     { id: 'guide-dissonant', label: 'Guide D' },
     { id: 'walker-resonant', label: 'Walker R' },
     { id: 'walker-dissonant', label: 'Walker D' },
-    { id: 'home', label: 'Home' },
+    { id: 'home-guest', label: 'Home Guest' },
+    { id: 'home-auth', label: 'Home Auth' },
+    { id: 'home-confirm', label: 'Home Confirm' },
 ];
 
 const MOCK_WORDS = [
@@ -76,13 +79,21 @@ function makeMockState() {
 }
 
 function makePreviewQr(url, size = 190) {
+    const color = '111111';
+    const bg = 'FFFFFF';
     return `<img class="qr-image"
-        src="https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&color=1D2433&bgcolor=FAF8F2&data=${encodeURIComponent(url)}"
+        src="https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&color=${color}&bgcolor=${bg}&data=${encodeURIComponent(url)}"
         width="${size}" height="${size}" />`;
 }
 
 function renderGame(state) {
     const tr = t(DEFAULT_LANGUAGE);
+    const previewPresence = {
+        'guide-dissonant': false,
+        'walker-dissonant': true,
+        'guide-resonant': true,
+        'walker-resonant': false,
+    };
     document.body.className = `team-${state.turn.team}`;
     const { cells } = state;
     const rTotal = cells.filter(c => c.role === 'resonant').length;
@@ -95,30 +106,38 @@ function renderGame(state) {
             <div class="game__header-bar">
                 <button class="btn-back btn-icon">${ICONS.arrowLeft}</button>
                 <div class="game__qr-hub" aria-label="${tr.qrHubLabel}">
-                    <span class="game__eye-indicator" aria-hidden="true">
-                        <span class="game__eye game__eye--closed">${ICONS.eyeClosed}</span>
-                        <span class="game__eye game__eye--open">${ICONS.eye}</span>
-                    </span>
-                    <button class="game__qr-trigger btn-icon" type="button" aria-label="${tr.showQr}">${ICONS.qrCode}</button>
+                    <button class="game__qr-hit btn-flat" type="button" aria-label="${tr.showQr}">
+                        <span class="game__qr-caption">${tr.connectControllers}</span>
+                        <span class="game__qr-trigger" aria-hidden="true">${ICONS.qrCode}</span>
+                        <span class="game__eye-indicator" aria-hidden="true">
+                            <span class="game__eye game__eye--closed">${ICONS.eyeClosed}</span>
+                            <span class="game__eye game__eye--open">${ICONS.eye}</span>
+                        </span>
+                    </button>
                     <div class="game__qr-modal">
                         <div class="game__qr-modal-content">
                             <p class="game__qr-hint">${tr.scanToControl}</p>
-                            <div class="qr-panel">
+                            <div class="game__qr-columns">
                                 ${['dissonant', 'resonant'].map(team => `
-                                    <div class="qr-panel__group qr-panel__group--${team}">
-                                        <p class="qr-panel__group-title">${getTeamName(team, DEFAULT_LANGUAGE)}</p>
-                                        <div class="qr-panel__group-cards">
+                                    <section class="game__qr-team game__qr-team--${team}">
+                                        <h3 class="game__qr-team-title">${getTeamName(team, DEFAULT_LANGUAGE)}</h3>
+                                        <div class="game__qr-cards">
                                             ${[
                                                 { role: 'guide', label: tr.guide },
                                                 { role: 'walker', label: tr.dreamwalker },
                                             ].map(item => `
-                                                <div class="qr-panel__block">
-                                                    <div class="qr-wrapper">${makePreviewQr(`${window.location.origin}/sleepwalkers/${item.role}.html?team=${team}`, 130)}</div>
-                                                    <p class="qr-panel__label">${item.label}</p>
-                                                </div>
+                                                <article class="game__qr-card game__qr-card--${item.role}">
+                                                    <div class="game__qr-code-wrap">${makePreviewQr(`${window.location.origin}/sleepwalkers/${item.role}.html?team=${team}`, 130, team)}</div>
+                                                    <p class="game__qr-role">
+                                                        <span class="game__qr-role-eye ${previewPresence[`${item.role}-${team}`] ? 'is-connected' : ''}">
+                                                            ${previewPresence[`${item.role}-${team}`] ? ICONS.eye : ICONS.eyeClosed}
+                                                        </span>
+                                                        <span class="game__qr-role-text">${item.label}</span>
+                                                    </p>
+                                                </article>
                                             `).join('')}
                                         </div>
-                                    </div>
+                                    </section>
                                 `).join('')}
                             </div>
                         </div>
@@ -128,7 +147,7 @@ function renderGame(state) {
         </header>
 
         <main class="screen-body">
-            <div class="game preview-clickable">
+            <div class="game">
                 <div class="grid grid--5">
                     ${cells.map((cell, i) => `
                         <div class="${getGameCellClass(cell)}" data-index="${i}">
@@ -157,8 +176,10 @@ function renderGuide(state, team) {
     const isMyTurn = turnTeam === team;
     const guideLocked = guideLimit !== null;
     const canAct = isMyTurn && !guideLocked;
-    const playerTitle = `${getTeamName(team, DEFAULT_LANGUAGE)} ${tr.guide}`;
-    const hintText = tr.chooseLimit;
+    const teamTitle = getTeamName(team, DEFAULT_LANGUAGE);
+    const guideStatus = canAct
+        ? `${tr.guide}: ${tr.chooseLimit}`
+        : `${tr.guide}: ${ICONS.eyeClosed}`;
 
     const btns = Array.from({ length: 8 }, (_, i) => {
         const n = i + 1;
@@ -170,8 +191,8 @@ function renderGuide(state, team) {
     <div class="screen-layout guide-layout">
         <header class="screen-header">
             <div class="guide__header">
-                <div class="guide__title ${canAct ? 'guide__title--active' : 'guide__title--muted'}">${playerTitle}</div>
-                <div class="guide__hint">${hintText}</div>
+                <div class="guide__title ${canAct ? 'guide__title--active' : 'guide__title--muted'}">${teamTitle}</div>
+                <div class="guide__meta ${canAct ? 'guide__meta--active' : 'guide__meta--muted'}">${guideStatus}</div>
                 <div class="guide__btns ${canAct ? 'guide__btns--active' : 'guide__btns--muted'}">${btns}</div>
             </div>
         </header>
@@ -198,19 +219,21 @@ function renderWalker(state, team) {
     const { team: turnTeam, guideLimit } = state.turn;
     const isMyTurn = turnTeam === team;
     const canPlay = isMyTurn && guideLimit !== null;
-    const playerTitle = `${getTeamName(team, DEFAULT_LANGUAGE)} ${tr.dreamwalker}`;
-    const turnInfoText = canPlay ? `${guideLimit} ${tr.steps}` : '';
-    const turnInfoClass = canPlay
-        ? 'walker__turn-info walker__turn-info--active'
-        : 'walker__turn-info walker__turn-info--muted';
+    const teamTitle = getTeamName(team, DEFAULT_LANGUAGE);
+    const walkerStatus = canPlay
+        ? `${tr.dreamwalker}: ${guideLimit} ${tr.steps}`
+        : `${tr.dreamwalker}: ${ICONS.eyeClosed}`;
+    const statusClass = canPlay
+        ? 'walker__status walker__status--active'
+        : 'walker__status walker__status--muted';
 
     return `
     <div class="screen-layout walker-layout">
         <header class="screen-header">
             <div class="walker__header">
-                <div class="walker__title ${canPlay ? 'walker__title--active' : 'walker__title--muted'}">${playerTitle}</div>
+                <div class="walker__title ${canPlay ? 'walker__title--active' : 'walker__title--muted'}">${teamTitle}</div>
                 <div class="walker__meta">
-                    <div class="${turnInfoClass}">${turnInfoText}</div>
+                    <div class="${statusClass}">${walkerStatus}</div>
                     <div class="walker__actions">
                         <span class="walker__end-hint">${tr.end}</span>
                         <button class="walker__action-btn walker__refresh-btn ${canPlay ? 'walker__refresh-btn--active' : 'walker__refresh-btn--muted'}" aria-label="${tr.endTurn}" ${!canPlay ? 'disabled' : ''}>${ICONS.refreshCw}</button>
@@ -235,8 +258,77 @@ function renderWalker(state, team) {
     </div>`;
 }
 
-function renderHome() {
+function renderHome({ isGuest = false, showConfirm = false } = {}) {
     document.body.className = '';
+    const tr = t(DEFAULT_LANGUAGE);
+    const generateEyes = (count = 16) => {
+        const cols = 4;
+        const rows = 4;
+        const minX = 8;
+        const maxX = 92;
+        const minY = 12;
+        const maxY = 88;
+        const cellW = (maxX - minX) / cols;
+        const cellH = (maxY - minY) / rows;
+        const jitterX = cellW * 0.34;
+        const jitterY = cellH * 0.34;
+
+        const cells = [];
+        for (let r = 0; r < rows; r += 1) {
+            for (let c = 0; c < cols; c += 1) {
+                cells.push({ r, c });
+            }
+        }
+
+        for (let i = cells.length - 1; i > 0; i -= 1) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [cells[i], cells[j]] = [cells[j], cells[i]];
+        }
+
+        return cells.slice(0, count).map(({ r, c }, i) => {
+            const baseX = minX + cellW * (c + 0.5);
+            const baseY = minY + cellH * (r + 0.5);
+            const left = Math.round(baseX + (Math.random() * 2 - 1) * jitterX);
+            const top = Math.round(baseY + (Math.random() * 2 - 1) * jitterY);
+            const size = Math.round(24 + Math.random() * 56);
+            const period = (3 + Math.random() * 2).toFixed(2);
+            const delay = (Math.random() * 2.5).toFixed(2);
+            const alpha = (0.3 + Math.random() * 0.5).toFixed(2);
+            return { id: i, size, left, top, period, delay, alpha };
+        });
+    };
+    const previewEyes = generateEyes(16);
+
+    const authBlock = isGuest
+        ? `
+            <button class="lobby__btn lobby__btn--google" id="loginBtn">
+                <span class="lobby__btn-text">${tr.signIn}</span>
+                <span class="lobby__btn-google-icon">${ICONS.google}</span>
+            </button>
+        `
+        : `
+            <div class="lobby-screen__actions">
+                <button class="lobby__btn lobby__btn--continue">Continue Game</button>
+                <button class="lobby__btn lobby__btn--newgame">New Game</button>
+            </div>
+        `;
+
+    const confirmBlock = showConfirm
+        ? `
+    <div class="confirm-modal">
+        <div class="confirm-modal__backdrop"></div>
+        <div class="confirm-modal__content" role="dialog" aria-modal="true">
+            <h2 class="confirm-modal__title">${tr.newGame}</h2>
+            <p class="confirm-modal__text">${tr.confirmNewGame}</p>
+            <div class="confirm-modal__actions">
+                <button class="lobby__btn confirm-modal__btn confirm-modal__btn--confirm">${tr.confirmNewGameAction}</button>
+                <button class="lobby__btn confirm-modal__btn confirm-modal__btn--cancel">${tr.cancel}</button>
+            </div>
+        </div>
+    </div>
+    `
+        : '';
+
     return `
     <div class="app">
         <div class="lang-toggle">
@@ -244,19 +336,26 @@ function renderHome() {
             <button class="lang-toggle__btn">EN</button>
         </div>
         <div class="lobby-screen">
-            <div class="lobby__title-wrap"><h1 class="lobby__title">SLEEPWALKERS</h1></div>
-            <div class="lobby-screen__actions">
-                <button class="lobby__btn lobby__btn--continue">Continue Game</button>
-                <button class="lobby__btn lobby__btn--newgame">New Game</button>
+            <div class="home-eyes" aria-hidden="true">
+                ${previewEyes.map(eye => `
+                    <span class="home-eye"
+                        style="--eye-size:${eye.size}px;--eye-left:${eye.left}%;--eye-top:${eye.top}%;--eye-period:${eye.period}s;--eye-delay:${eye.delay}s;--eye-alpha:${eye.alpha};">
+                        <span class="home-eye__open">${ICONS.eye}</span>
+                        <span class="home-eye__closed">${ICONS.eyeClosed}</span>
+                    </span>
+                `).join('')}
             </div>
+            <div class="lobby__title-wrap"><h1 class="lobby__title">SLEEPWALKERS</h1></div>
+            ${authBlock}
         </div>
     </div>
-    <button class="btn-profile btn-icon">${ICONS.user}</button>
-    <button class="fullscreen-btn btn-icon">${ICONS.maximize}</button>`;
+    ${isGuest ? '' : `<button class="btn-logout btn-icon">${ICONS.user}</button>`}
+    <button class="fullscreen-btn btn-icon">${ICONS.maximize}</button>
+    ${confirmBlock}`;
 }
 
 function getScreenId() {
-    return new URLSearchParams(location.search).get('screen') || 'game';
+    return new URLSearchParams(location.search).get('screen') || 'home-guest';
 }
 
 function setScreenId(id) {
@@ -271,6 +370,33 @@ export function initPreview(root) {
     document.head.appendChild(styleEl);
 
     const state = makeMockState();
+    let qrModalPinned = false;
+    let qrModalHover = false;
+    let fullscreenBound = false;
+
+    function syncFullscreenIcon() {
+        root.querySelectorAll('.fullscreen-btn').forEach(btn => {
+            btn.innerHTML = document.fullscreenElement ? ICONS.minimize : ICONS.maximize;
+        });
+    }
+
+    function syncQrModalState() {
+        const hub = root.querySelector('.game__qr-hub');
+        if (!hub) {
+            qrModalPinned = false;
+            qrModalHover = false;
+            return;
+        }
+        const isOpen = qrModalPinned || qrModalHover;
+        hub.classList.toggle('is-open', isOpen);
+        hub.classList.toggle('is-pinned', qrModalPinned);
+    }
+
+    function closeQrModal() {
+        qrModalPinned = false;
+        qrModalHover = false;
+        syncQrModalState();
+    }
 
     function render() {
         const id = getScreenId();
@@ -292,6 +418,15 @@ export function initPreview(root) {
             case 'home':
                 html = renderHome();
                 break;
+            case 'home-auth':
+                html = renderHome({ isGuest: false, showConfirm: false });
+                break;
+            case 'home-confirm':
+                html = renderHome({ isGuest: false, showConfirm: true });
+                break;
+            case 'home-guest':
+                html = renderHome({ isGuest: true, showConfirm: false });
+                break;
             case 'game':
             default:
                 html = renderGame(state);
@@ -306,6 +441,17 @@ export function initPreview(root) {
             </div>`;
 
         root.innerHTML = `${html}${nav}`;
+        syncQrModalState();
+
+        const qrHit = root.querySelector('.game__qr-hit');
+        qrHit?.addEventListener('mouseenter', () => {
+            qrModalHover = true;
+            syncQrModalState();
+        });
+        qrHit?.addEventListener('mouseleave', () => {
+            qrModalHover = false;
+            syncQrModalState();
+        });
 
         requestAnimationFrame(() => {
             root.querySelectorAll('.cell').forEach(cell => fitTextToCell(cell));
@@ -327,6 +473,44 @@ export function initPreview(root) {
                 render();
             });
         });
+
+        root.querySelectorAll('.fullscreen-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen?.();
+                } else {
+                    document.exitFullscreen?.();
+                }
+            });
+        });
+
+        syncFullscreenIcon();
+    }
+
+    root.addEventListener('click', (event) => {
+        const hit = event.target.closest('.game__qr-hit');
+        if (hit) {
+            event.preventDefault();
+            qrModalPinned = !qrModalPinned;
+            syncQrModalState();
+            return;
+        }
+
+        if (qrModalPinned) {
+            qrModalPinned = false;
+            syncQrModalState();
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && (qrModalPinned || qrModalHover)) {
+            closeQrModal();
+        }
+    });
+
+    if (!fullscreenBound) {
+        document.addEventListener('fullscreenchange', syncFullscreenIcon);
+        fullscreenBound = true;
     }
 
     window.addEventListener('popstate', render);

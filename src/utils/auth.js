@@ -25,14 +25,14 @@ export async function signOut() {
 }
 
 // Знаходить або створює кімнату для хоста
-// Повертає { id, guest_token, hasActiveGame }
+// Повертає { id, guest_token, hasActiveGame, language }
 export async function getOrCreateRoomForUser(userId) {
     if (!isSupabaseConfigured) {
         throw new Error('Supabase is not configured.');
     }
     const { data: existing } = await supabase
         .from('rooms')
-        .select('id, guest_token, state')
+        .select('id, guest_token, state, language')
         .eq('owner_id', userId)
         .maybeSingle();
 
@@ -41,6 +41,7 @@ export async function getOrCreateRoomForUser(userId) {
             id:            existing.id,
             guest_token:   existing.guest_token,
             hasActiveGame: !!existing.state,
+            language:      existing.language,
         };
     }
 
@@ -51,7 +52,7 @@ export async function getOrCreateRoomForUser(userId) {
         .select('id, guest_token')
         .single();
 
-    return { id: data.id, guest_token: data.guest_token, hasActiveGame: false };
+    return { id: data.id, guest_token: data.guest_token, hasActiveGame: false, language: null };
 }
 
 function generateId() {

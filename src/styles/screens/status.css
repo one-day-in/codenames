@@ -4,8 +4,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100dvw;
-    min-height: 100dvh;
+    width: var(--viewport-min-width);
+    min-height: var(--viewport-min-height);
 }
 
 .awake-screen__content {
@@ -18,31 +18,31 @@
 }
 
 .awake-screen__title {
-    font-size: clamp(0.9rem, 3vw, 1.4rem);
+    font-size: var(--awake-title-size);
     font-weight: 800;
-    letter-spacing: 5px;
+    letter-spacing: var(--awake-title-letter-spacing);
     text-transform: uppercase;
 }
 
 .awake-screen__awakening {
-    font-size: clamp(1.4rem, 6vw, 3rem);
+    font-size: var(--awake-awakening-size);
     font-weight: 800;
-    letter-spacing: 2px;
+    letter-spacing: var(--awake-awakening-letter-spacing);
     text-transform: uppercase;
     line-height: 1.2;
 }
 
 .awake-screen__role {
-    font-size: clamp(0.85rem, 2.5vw, 1.1rem);
-    letter-spacing: 2px;
+    font-size: var(--awake-role-size);
+    letter-spacing: var(--awake-role-letter-spacing);
     text-transform: uppercase;
 }
 
 .awake-screen__new-game-btn {
-    padding: clamp(12px, 3vw, 18px) clamp(28px, 6vw, 56px);
-    font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+    padding: var(--awake-btn-pad);
+    font-size: var(--awake-btn-size);
     font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: var(--awake-btn-letter-spacing);
     text-transform: uppercase;
 }
 
@@ -54,17 +54,17 @@
     align-items: center;
     justify-content: center;
     gap: var(--space-lg);
-    width: 100dvw;
-    min-height: 100dvh;
+    width: var(--viewport-min-width);
+    min-height: var(--viewport-min-height);
     padding: var(--space-xl);
     text-align: center;
     box-sizing: border-box;
 }
 
 .waiting-screen__title {
-    font-size: clamp(1.2rem, 4vw, 2rem);
+    font-size: var(--waiting-title-size);
     font-weight: 800;
-    letter-spacing: 4px;
+    letter-spacing: var(--waiting-title-letter-spacing);
     text-transform: uppercase;
 }
 
@@ -74,10 +74,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100dvw;
-    min-height: 100dvh;
+    width: var(--viewport-min-width);
+    min-height: var(--viewport-min-height);
     padding: var(--space-xl);
     text-align: center;
     box-sizing: border-box;
-    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    font-size: var(--error-size);
 }

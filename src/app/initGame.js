@@ -12,8 +12,10 @@ import { onOrientationChange } from '../utils/resize.js';
 import { escapeHtml } from '../utils/sanitize.js';
 
 function makeQrImg(url, size = 130) {
+    const color = '111111';
+    const bg = 'FFFFFF';
     return `<img class="qr-image"
-        src="https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&color=1D2433&bgcolor=FAF8F2&data=${encodeURIComponent(url)}"
+        src="https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&color=${color}&bgcolor=${bg}&data=${encodeURIComponent(url)}"
         width="${size}" height="${size}" />`;
 }
 
@@ -25,7 +27,9 @@ export async function initGame(root) {
         return;
     }
 
-    // [PRESENCE DISABLED] createPresence(roomId), presence.listen(), keepAlive
+    const presence = createPresence(roomId);
+    presence.listen();
+    keepAlive(presence);
 
     const store = createGameStore(roomId);
     await store.init();
@@ -37,6 +41,34 @@ export async function initGame(root) {
 
     function guestUrl(page, team) {
         return `${getBaseUrl()}/${page}.html?room=${roomId}&token=${token}&team=${team}`;
+    }
+
+    let qrModalPinned = false;
+    let qrModalHover = false;
+    let fullscreenBound = false;
+
+    function syncFullscreenIcon() {
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        if (!fullscreenBtn) return;
+        fullscreenBtn.innerHTML = document.fullscreenElement ? ICONS.minimize : ICONS.maximize;
+    }
+
+    function syncQrModalState() {
+        const hub = root.querySelector('.game__qr-hub');
+        if (!hub) {
+            qrModalPinned = false;
+            qrModalHover = false;
+            return;
+        }
+        const isOpen = qrModalPinned || qrModalHover;
+        hub.classList.toggle('is-open', isOpen);
+        hub.classList.toggle('is-pinned', qrModalPinned);
+    }
+
+    function closeQrModal() {
+        qrModalPinned = false;
+        qrModalHover = false;
+        syncQrModalState();
     }
 
     function renderQrPanel(presenceState, lang) {
@@ -66,7 +98,7 @@ export async function initGame(root) {
                         <div class="qr-panel__group-cards">
                             ${g.cards.map(c => `
                                 <div class="qr-panel__block ${presenceState[c.role] ? 'qr-panel__block--connected' : ''}">
-                                    <div class="qr-wrapper">${makeQrImg(c.url)}</div>
+                                    <div class="qr-wrapper">${makeQrImg(c.url, 130, g.team)}</div>
                                     <p class="qr-panel__label">${c.label}</p>
                                     ${presenceState[c.role] ? '<div class="qr-panel__check">✓</div>' : ''}
                                 </div>
@@ -92,7 +124,7 @@ export async function initGame(root) {
             </div>`;
     }
 
-    function renderBoard(state, lang) {
+    function renderBoard(state, lang, presenceState) {
         const tr = t(lang);
         const { cells } = state;
         const rTotal = cells.filter(c => c.role === 'resonant').length;
@@ -100,10 +132,10 @@ export async function initGame(root) {
         const rDone  = cells.filter(c => c.role === 'resonant'  && c.revealed).length;
         const dDone  = cells.filter(c => c.role === 'dissonant' && c.revealed).length;
         const qrItems = [
-            { team: 'dissonant', role: 'guide', label: tr.guide },
-            { team: 'dissonant', role: 'walker', label: tr.dreamwalker },
-            { team: 'resonant', role: 'guide', label: tr.guide },
-            { team: 'resonant', role: 'walker', label: tr.dreamwalker },
+            { team: 'dissonant', role: 'guide', label: tr.guide, presenceRole: ROLES.GUIDE_DISSONANT },
+            { team: 'dissonant', role: 'walker', label: tr.dreamwalker, presenceRole: ROLES.WALKER_DISSONANT },
+            { team: 'resonant', role: 'guide', label: tr.guide, presenceRole: ROLES.GUIDE_RESONANT },
+            { team: 'resonant', role: 'walker', label: tr.dreamwalker, presenceRole: ROLES.WALKER_RESONANT },
         ];
 
         document.body.className = `team-${state.turn.team}`;
@@ -114,27 +146,35 @@ export async function initGame(root) {
                 <div class="game__header-bar">
                     <button class="btn-back btn-icon" id="backBtn">${ICONS.arrowLeft}</button>
                     <div class="game__qr-hub" aria-label="${tr.qrHubLabel}">
-                        <span class="game__eye-indicator" aria-hidden="true">
-                            <span class="game__eye game__eye--closed">${ICONS.eyeClosed}</span>
-                            <span class="game__eye game__eye--open">${ICONS.eye}</span>
-                        </span>
-                        <button class="game__qr-trigger btn-icon" type="button" aria-label="${tr.showQr}">${ICONS.qrCode}</button>
+                        <button class="game__qr-hit btn-flat" type="button" aria-label="${tr.showQr}">
+                            <span class="game__qr-caption">${tr.connectControllers}</span>
+                            <span class="game__qr-trigger" aria-hidden="true">${ICONS.qrCode}</span>
+                            <span class="game__eye-indicator" aria-hidden="true">
+                                <span class="game__eye game__eye--closed">${ICONS.eyeClosed}</span>
+                                <span class="game__eye game__eye--open">${ICONS.eye}</span>
+                            </span>
+                        </button>
                         <div class="game__qr-modal">
                             <div class="game__qr-modal-content">
                                 <p class="game__qr-hint">${tr.scanToControl}</p>
-                                <div class="qr-panel">
+                                <div class="game__qr-columns">
                                     ${['dissonant', 'resonant'].map(team => `
-                                        <div class="qr-panel__group qr-panel__group--${team}">
-                                            <p class="qr-panel__group-title">${team === 'dissonant' ? tr.dissonant : tr.resonant}</p>
-                                            <div class="qr-panel__group-cards">
+                                        <section class="game__qr-team game__qr-team--${team}">
+                                            <h3 class="game__qr-team-title">${team === 'dissonant' ? tr.dissonant : tr.resonant}</h3>
+                                            <div class="game__qr-cards">
                                                 ${qrItems.filter(item => item.team === team).map(item => `
-                                                    <div class="qr-panel__block">
-                                                        <div class="qr-wrapper">${makeQrImg(guestUrl(item.role, item.team), 130)}</div>
-                                                        <p class="qr-panel__label">${item.label}</p>
-                                                    </div>
+                                                    <article class="game__qr-card game__qr-card--${item.role}">
+                                                        <div class="game__qr-code-wrap">${makeQrImg(guestUrl(item.role, item.team), 130, item.team)}</div>
+                                                        <p class="game__qr-role">
+                                                            <span class="game__qr-role-eye ${presenceState[item.presenceRole] ? 'is-connected' : ''}">
+                                                                ${presenceState[item.presenceRole] ? ICONS.eye : ICONS.eyeClosed}
+                                                            </span>
+                                                            <span class="game__qr-role-text">${item.label}</span>
+                                                        </p>
+                                                    </article>
                                                 `).join('')}
                                             </div>
-                                        </div>
+                                        </section>
                                     `).join('')}
                                 </div>
                             </div>
@@ -178,12 +218,26 @@ export async function initGame(root) {
             }
         });
 
+        syncFullscreenIcon();
+
+        const qrHit = root.querySelector('.game__qr-hit');
+        qrHit?.addEventListener('mouseenter', () => {
+            qrModalHover = true;
+            syncQrModalState();
+        });
+        qrHit?.addEventListener('mouseleave', () => {
+            qrModalHover = false;
+            syncQrModalState();
+        });
+
+        syncQrModalState();
         requestAnimationFrame(() => fitTextAll(root));
     }
 
     function rerender() {
         const state = store.getState();
         const lang = store.getLanguage();
+        const presenceState = presence.getPresenceState();
 
         if (!state) {
             window.location.href = getBaseUrl() + '/index.html';
@@ -198,11 +252,38 @@ export async function initGame(root) {
             return;
         }
 
-        renderBoard(state, lang);
+        renderBoard(state, lang, presenceState);
     }
 
     store.subscribe(rerender);
-    // [PRESENCE DISABLED] presence.onChange(rerender);
+    presence.onChange(rerender);
     onOrientationChange(() => fitTextAll(root));
+
+    if (!fullscreenBound) {
+        document.addEventListener('fullscreenchange', syncFullscreenIcon);
+        fullscreenBound = true;
+    }
+
+    root.addEventListener('click', (event) => {
+        const hubHit = event.target.closest('.game__qr-hit');
+        if (hubHit) {
+            event.preventDefault();
+            qrModalPinned = !qrModalPinned;
+            syncQrModalState();
+            return;
+        }
+
+        if (qrModalPinned) {
+            qrModalPinned = false;
+            syncQrModalState();
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && (qrModalPinned || qrModalHover)) {
+            closeQrModal();
+        }
+    });
+
     rerender();
 }

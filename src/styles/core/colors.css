@@ -1,0 +1,82 @@
+/* colors.css
+   Shared palette tokens for all screens/components. */
+:root {
+  /* Core */
+  --color-black: #000000;
+  --color-white: #ffffff;
+
+  /* Teams */
+  --color-resonant: #f2b35b;   /* warm lamp light */
+  --color-dissonant: #79c9ff;  /* cold daylight */
+
+  /* Other cards */
+  --color-anomaly: #d7d9de;    /* white-gray */
+  --color-nightmare: #8f1515;  /* red-black direction */
+  --color-hidden: #2b2b2b;
+
+  /* Text */
+  --pal-white: var(--color-white);
+  --pal-text-main: rgba(255, 255, 255, 0.96);
+  --pal-text-secondary: rgba(255, 255, 255, 0.78);
+  --pal-text-disabled: rgba(255, 255, 255, 0.42);
+
+  /* White alpha helpers */
+  --pal-white-a00: rgba(255, 255, 255, 0);
+  --pal-white-a14: rgba(255, 255, 255, 0.14);
+  --pal-white-a16: rgba(255, 255, 255, 0.16);
+  --pal-white-a20: rgba(255, 255, 255, 0.2);
+  --pal-white-a68: rgba(255, 255, 255, 0.68);
+
+  /* Standard button surface (single style for all buttons) */
+  --pal-btn-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+  --pal-btn-bg-hover: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05));
+  --pal-btn-bg-active: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.07));
+
+  /* Home language state uses same button standard */
+  --pal-home-lang-hover-bg: var(--pal-btn-bg-hover);
+  --pal-home-lang-hover-shadow: rgba(255, 255, 255, 0);
+  --pal-home-lang-active-border: rgba(255, 255, 255, 0.68);
+  --pal-home-lang-active-top: rgba(255, 255, 255, 0.16);
+  --pal-home-lang-active-bottom: rgba(255, 255, 255, 0.07);
+  --pal-home-lang-active-base: rgba(255, 255, 255, 0.02);
+  --pal-home-lang-active-ring: rgba(255, 255, 255, 0.26);
+  --pal-home-lang-active-glow: rgba(255, 255, 255, 0);
+  --pal-home-lang-active-shadow: rgba(255, 255, 255, 0);
+
+  /* Shared component helpers */
+  --pal-modal-overlay: rgba(0, 0, 0, 0.52);
+  --pal-panel-grad-top: rgba(255, 255, 255, 0.07);
+  --pal-panel-grad-bottom: rgba(255, 255, 255, 0.02);
+  --pal-panel-float: rgba(0, 0, 0, 0.22);
+  --pal-overlay-strong: rgba(0, 0, 0, 0.64);
+  --pal-gray-700: rgba(255, 255, 255, 0.22);
+  --pal-google-text: var(--pal-text-main);
+
+  /* Resonant team standard (warm incandescent lamp) */
+  --pal-resonant-main: #f2b35b;
+  --pal-resonant-light: #ffe8bf;
+  --pal-resonant-text-dark: #2a1a08;
+  --pal-resonant-a40: rgba(242, 179, 91, 0.4);
+  --pal-resonant-a55: rgba(242, 179, 91, 0.55);
+  --pal-resonant-a70: rgba(242, 179, 91, 0.7);
+
+  /* Dissonant team standard (cold daylight lamp) */
+  --pal-dissonant-main: #7ecfff;
+  --pal-dissonant-light: #dff3ff;
+  --pal-dissonant-text-dark: #082033;
+  --pal-dissonant-a40: rgba(126, 207, 255, 0.4);
+  --pal-dissonant-a55: rgba(126, 207, 255, 0.55);
+  --pal-dissonant-a70: rgba(126, 207, 255, 0.7);
+
+  /* Backward-compatible aliases */
+  --pal-team-main: var(--pal-resonant-main);
+  --pal-team-light: var(--pal-resonant-light);
+  --pal-team-text-dark: var(--pal-resonant-text-dark);
+  --pal-team-a40: var(--pal-resonant-a40);
+  --pal-team-a55: var(--pal-resonant-a55);
+  --pal-team-a70: var(--pal-resonant-a70);
+  --pal-guide-btn-selected-bg: linear-gradient(180deg, rgba(242, 179, 91, 0.28), rgba(242, 179, 91, 0.14));
+
+  --pal-success-main: #4fd685;
+  --pal-qr-eye: rgba(255, 255, 255, 0.92);
+}

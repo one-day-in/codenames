@@ -51,22 +51,24 @@ export async function initWalker(root) {
         const hasLimit = turn.guideLimit !== null;
         const canPlay = isMyTurn && hasLimit && !state.gameOver;
 
-        const playerTitle = `${getTeamName(team, lang)} ${tr.dreamwalker}`;
-        const turnInfoText = canPlay ? `${turn.guideLimit} ${tr.steps}` : '';
-        const turnInfoClass = canPlay
-            ? 'walker__turn-info walker__turn-info--active'
-            : 'walker__turn-info walker__turn-info--muted';
+        const teamTitle = getTeamName(team, lang);
+        const walkerStatus = canPlay
+            ? `${tr.dreamwalker}: ${turn.guideLimit} ${tr.steps}`
+            : `${tr.dreamwalker}: ${ICONS.eyeClosed}`;
+        const statusClass = canPlay
+            ? 'walker__status walker__status--active'
+            : 'walker__status walker__status--muted';
 
         document.body.classList.remove('team-resonant', 'team-dissonant');
-        document.body.classList.add(`team-${turn.team}`);
+        document.body.classList.add(`team-${team}`);
 
         root.innerHTML = `
         <div class="screen-layout walker-layout">
             <header class="screen-header">
                 <div class="walker__header">
-                    <div class="walker__title ${canPlay ? 'walker__title--active' : 'walker__title--muted'}">${playerTitle}</div>
+                    <div class="walker__title ${canPlay ? 'walker__title--active' : 'walker__title--muted'}">${teamTitle}</div>
                     <div class="walker__meta">
-                        <div class="${turnInfoClass}">${turnInfoText}</div>
+                        <div class="${statusClass}">${walkerStatus}</div>
                         <div class="walker__actions">
                             <span class="walker__end-hint">${tr.end}</span>
                             <button class="walker__action-btn walker__refresh-btn ${canPlay ? 'walker__refresh-btn--active' : 'walker__refresh-btn--muted'}" id="refreshBtn" aria-label="${tr.endTurn}" ${!canPlay ? 'disabled' : ''}>${ICONS.refreshCw}</button>
