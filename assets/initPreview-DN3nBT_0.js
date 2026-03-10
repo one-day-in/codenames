@@ -1,4 +1,4 @@
-import{c as z}from"./boardFactory-C9SJVUAj.js";import{b as D,f as P,g as L,a as W}from"./renderCell-D2QPO2EK.js";import{I as c,g as E,f as H,t as x,D as $}from"./icons-CMMQtHON.js";const I=`
+import{c as z}from"./boardFactory-cNgSMpV-.js";import{b as D,f as P,g as L,a as W}from"./renderCell-D2QPO2EK.js";import{I as c,g as E,f as H,t as x,D as $}from"./icons-CW5xgYQm.js";const I=`
 .preview-nav {
     position: fixed;
     bottom: 0;
