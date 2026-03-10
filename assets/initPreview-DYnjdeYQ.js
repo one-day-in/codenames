@@ -36,9 +36,9 @@ import{c as W}from"./boardFactory-cNgSMpV-.js";import{b as z,f as D,g as S,a as 
     outline: 1px solid rgba(255, 255, 255, 0.9);
     outline-offset: -1px;
 }
-`,B=[{id:"game",label:"Game"},{id:"guide-resonant",label:"Guide R"},{id:"guide-dissonant",label:"Guide D"},{id:"walker-resonant",label:"Walker R"},{id:"walker-dissonant",label:"Walker D"},{id:"home-guest",label:"Home Guest"},{id:"home-auth",label:"Home Auth"},{id:"home-confirm",label:"Home Confirm"}],X=["МРІЯ","ТІНЬ","ХВИЛЯ","ЗІРКА","КРИЛО","МІСЯЦЬ","ВОГОНЬ","ЛІХТАР","ДОРОГА","ПІСНЯ","КАМІНЬ","ВІТЕР","ОЗЕРО","РАНОК","ЛИСТОК","ТУМАН","БЕРЕГ","НЕБО","СТРУНА","КВІТКА","ЖАРА","ДУМКА","СЛОВО","МОРЕ","КЛЮЧ"];function Y(){const{cells:e,startsFirst:a}=W({size:5,words:X});return{phase:"game",size:5,cells:e,turn:{team:a,guideLimit:3,dreamwalkerMoves:1},gameOver:!1,winner:null}}function U(e,a=190,s="neutral"){const u={resonant:{color:"5A2E00",bg:"FFF3DE"},dissonant:{color:"0A3558",bg:"EAF6FF"},neutral:{color:"1E2A36",bg:"F2F6FB"}},{color:r,bg:b}=u[s]||u.neutral;return`<img class="qr-image"
+`,B=[{id:"game",label:"Game"},{id:"guide-resonant",label:"Guide R"},{id:"guide-dissonant",label:"Guide D"},{id:"walker-resonant",label:"Walker R"},{id:"walker-dissonant",label:"Walker D"},{id:"home-guest",label:"Home Guest"},{id:"home-auth",label:"Home Auth"},{id:"home-confirm",label:"Home Confirm"}],X=["МРІЯ","ТІНЬ","ХВИЛЯ","ЗІРКА","КРИЛО","МІСЯЦЬ","ВОГОНЬ","ЛІХТАР","ДОРОГА","ПІСНЯ","КАМІНЬ","ВІТЕР","ОЗЕРО","РАНОК","ЛИСТОК","ТУМАН","БЕРЕГ","НЕБО","СТРУНА","КВІТКА","ЖАРА","ДУМКА","СЛОВО","МОРЕ","КЛЮЧ"];function Y(){const{cells:e,startsFirst:a}=W({size:5,words:X});return{phase:"game",size:5,cells:e,turn:{team:a,guideLimit:3,dreamwalkerMoves:1},gameOver:!1,winner:null}}function U(e,a=190,s="neutral"){const m={resonant:{color:"5A2E00",bg:"FFF3DE"},dissonant:{color:"0A3558",bg:"EAF6FF"},neutral:{color:"1E2A36",bg:"F2F6FB"}},{color:r,bg:b}=m[s]||m.neutral;return`<img class="qr-image"
         src="https://api.qrserver.com/v1/create-qr-code/?size=${a}x${a}&color=${r}&bgcolor=${b}&data=${encodeURIComponent(e)}"
-        width="${a}" height="${a}" />`}function O(e){const a=x($),s={"guide-dissonant":!1,"walker-dissonant":!0,"guide-resonant":!0,"walker-resonant":!1};document.body.className=`team-${e.turn.team}`;const{cells:u}=e,r=u.filter(t=>t.role==="resonant").length,b=u.filter(t=>t.role==="dissonant").length,g=u.filter(t=>t.role==="resonant"&&t.revealed).length,o=u.filter(t=>t.role==="dissonant"&&t.revealed).length,p=e.turn.guideLimit===null?a.turnRoleGuide:a.turnRoleWalker;return`
+        width="${a}" height="${a}" />`}function O(e){const a=x($),s={"guide-dissonant":!1,"walker-dissonant":!0,"guide-resonant":!0,"walker-resonant":!1};document.body.className=`team-${e.turn.team}`;const{cells:m}=e,r=m.filter(t=>t.role==="resonant").length,b=m.filter(t=>t.role==="dissonant").length,g=m.filter(t=>t.role==="resonant"&&t.revealed).length,o=m.filter(t=>t.role==="dissonant"&&t.revealed).length,p=e.turn.guideLimit===null?a.turnRoleGuide:a.turnRoleWalker;return`
     <div class="screen-layout game-layout">
         <header class="screen-header game__header">
             <div class="game__header-bar">
@@ -84,7 +84,7 @@ import{c as W}from"./boardFactory-cNgSMpV-.js";import{b as z,f as D,g as S,a as 
         <main class="screen-body">
             <div class="game">
                 <div class="grid grid--5">
-                    ${u.map((t,i)=>`
+                    ${m.map((t,i)=>`
                         <div class="${S(t)}" data-index="${i}">
                             <span class="cell__content">${t.word}</span>
                         </div>
@@ -98,16 +98,16 @@ import{c as W}from"./boardFactory-cNgSMpV-.js";import{b as z,f as D,g as S,a as 
             <div class="game__score">
                 <span class="game__score-item game__score-item--dissonant ${e.turn.team==="dissonant"?"game__score-item--active game__score-item--expanded":""}">
                     <span class="game__score-main">${o} / ${b}</span>
-                    ${e.turn.team==="dissonant"?`<span class="game__score-turn-inline">${`${a.turn}: ${p}`}</span>`:""}
+                    ${e.turn.team==="dissonant"?`<span class="game__score-turn-inline">${p}</span>`:""}
                 </span>
                 <span class="game__score-item game__score-item--resonant ${e.turn.team==="resonant"?"game__score-item--active game__score-item--expanded":""}">
                     <span class="game__score-main">${g} / ${r}</span>
-                    ${e.turn.team==="resonant"?`<span class="game__score-turn-inline">${`${a.turn}: ${p}`}</span>`:""}
+                    ${e.turn.team==="resonant"?`<span class="game__score-turn-inline">${p}</span>`:""}
                 </span>
             </div>
             <button class="fullscreen-btn btn-icon">${d.maximize}</button>
         </footer>
-    </div>`}function C(e,a){const s=x($);document.body.className="";const{guideLimit:u,team:r}=e.turn,o=r===a&&!(u!==null),p=E(a,$),t=o?`${s.guide}: ${s.chooseLimit}`:`${s.guide}: ${d.eyeClosed}`,i=Array.from({length:8},(f,v)=>{const c=v+1;return`<button class="guide__num-btn ${u===c?"guide__num-btn--chosen":""}" ${o?"":"disabled"}>${c}</button>`}).join("");return`
+    </div>`}function C(e,a){const s=x($);document.body.className="";const{guideLimit:m,team:r}=e.turn,o=r===a&&!(m!==null),p=E(a,$),t=o?`${s.guide}: ${s.chooseLimit}`:`${s.guide}: ${d.eyeClosed}`,i=Array.from({length:8},(f,v)=>{const c=v+1;return`<button class="guide__num-btn ${m===c?"guide__num-btn--chosen":""}" ${o?"":"disabled"}>${c}</button>`}).join("");return`
     <div class="screen-layout guide-layout">
         <header class="screen-header">
             <div class="guide__header">
@@ -130,7 +130,7 @@ import{c as W}from"./boardFactory-cNgSMpV-.js";import{b as z,f as D,g as S,a as 
         </main>
 
         <footer class="screen-footer guide__footer"></footer>
-    </div>`}function L(e,a){const s=x($);document.body.className=`team-${e.turn.team}`;const{team:u,guideLimit:r}=e.turn,g=u===a&&r!==null,o=E(a,$),p=g?`${s.dreamwalker}: ${H(r,$)}`:`${s.dreamwalker}: ${d.eyeClosed}`;return`
+    </div>`}function L(e,a){const s=x($);document.body.className=`team-${e.turn.team}`;const{team:m,guideLimit:r}=e.turn,g=m===a&&r!==null,o=E(a,$),p=g?`${s.dreamwalker}: ${H(r,$)}`:`${s.dreamwalker}: ${d.eyeClosed}`;return`
     <div class="screen-layout walker-layout">
         <header class="screen-header">
             <div class="walker__header">
@@ -158,7 +158,7 @@ import{c as W}from"./boardFactory-cNgSMpV-.js";import{b as z,f as D,g as S,a as 
         </main>
 
         <footer class="screen-footer walker__footer"></footer>
-    </div>`}function k({isGuest:e=!1,showConfirm:a=!1}={}){document.body.className="";const s=x($),r=((o=16)=>{const h=7.140000000000001,w=19*.34,l=[];for(let n=0;n<4;n+=1)for(let m=0;m<4;m+=1)l.push({r:n,c:m});for(let n=l.length-1;n>0;n-=1){const m=Math.floor(Math.random()*(n+1));[l[n],l[m]]=[l[m],l[n]]}return l.slice(0,o).map(({r:n,c:m},y)=>{const M=8+21*(m+.5),A=12+19*(n+.5),T=Math.round(M+(Math.random()*2-1)*h),F=Math.round(A+(Math.random()*2-1)*w),G=Math.round(24+Math.random()*56),N=(3+Math.random()*2).toFixed(2),R=(Math.random()*2.5).toFixed(2),j=(.3+Math.random()*.5).toFixed(2);return{id:y,size:G,left:T,top:F,period:N,delay:R,alpha:j}})})(16),b=e?`
+    </div>`}function k({isGuest:e=!1,showConfirm:a=!1}={}){document.body.className="";const s=x($),r=((o=16)=>{const h=7.140000000000001,w=19*.34,l=[];for(let n=0;n<4;n+=1)for(let u=0;u<4;u+=1)l.push({r:n,c:u});for(let n=l.length-1;n>0;n-=1){const u=Math.floor(Math.random()*(n+1));[l[n],l[u]]=[l[u],l[n]]}return l.slice(0,o).map(({r:n,c:u},y)=>{const M=8+21*(u+.5),A=12+19*(n+.5),T=Math.round(M+(Math.random()*2-1)*h),F=Math.round(A+(Math.random()*2-1)*w),G=Math.round(24+Math.random()*56),N=(3+Math.random()*2).toFixed(2),R=(Math.random()*2.5).toFixed(2),j=(.3+Math.random()*.5).toFixed(2);return{id:y,size:G,left:T,top:F,period:N,delay:R,alpha:j}})})(16),b=e?`
             <button class="lobby__btn lobby__btn--google" id="loginBtn">
                 <span class="lobby__btn-text">${s.signIn}</span>
                 <span class="lobby__btn-google-icon">${d.google}</span>
@@ -202,9 +202,9 @@ import{c as W}from"./boardFactory-cNgSMpV-.js";import{b as z,f as D,g as S,a as 
     </div>
     ${e?"":`<button class="btn-logout btn-icon">${d.user}</button>`}
     <button class="fullscreen-btn btn-icon">${d.maximize}</button>
-    ${g}`}function Q(){return new URLSearchParams(location.search).get("screen")||"home-guest"}function K(e){const a=new URL(location.href);a.searchParams.set("screen",e),history.pushState({},"",a)}function ee(e){const a=document.createElement("style");a.textContent=I,document.head.appendChild(a);const s=Y(),u=new Set(["game","guide-resonant","guide-dissonant","walker-resonant","walker-dissonant"]);let r=!1,b=!1,g=!1,o=!1,p=new Set;function t(){e.querySelectorAll(".fullscreen-btn").forEach(c=>{c.innerHTML=document.fullscreenElement?d.minimize:d.maximize})}function i(){const c=e.querySelector(".game__qr-hub");if(!c){r=!1,b=!1;return}const _=r||b;c.classList.toggle("is-open",_),c.classList.toggle("is-pinned",r)}function f(){r=!1,b=!1,i()}function v(){var w;const c=Q();let _="";switch(c){case"guide-resonant":_=C(s,"resonant");break;case"guide-dissonant":_=C(s,"dissonant");break;case"walker-resonant":_=L(s,"resonant");break;case"walker-dissonant":_=L(s,"dissonant");break;case"home":_=k();break;case"home-auth":_=k({isGuest:!1,showConfirm:!1});break;case"home-confirm":_=k({isGuest:!1,showConfirm:!0});break;case"home-guest":_=k({isGuest:!0,showConfirm:!1});break;case"game":default:_=O(s);break}const q=`
+    ${g}`}function Q(){return new URLSearchParams(location.search).get("screen")||"home-guest"}function K(e){const a=new URL(location.href);a.searchParams.set("screen",e),history.pushState({},"",a)}function ee(e){const a=document.createElement("style");a.textContent=I,document.head.appendChild(a);const s=Y(),m=new Set(["game","guide-resonant","guide-dissonant","walker-resonant","walker-dissonant"]);let r=!1,b=!1,g=!1,o=!1,p=new Set;function t(){e.querySelectorAll(".fullscreen-btn").forEach(c=>{c.innerHTML=document.fullscreenElement?d.minimize:d.maximize})}function i(){const c=e.querySelector(".game__qr-hub");if(!c){r=!1,b=!1;return}const _=r||b;c.classList.toggle("is-open",_),c.classList.toggle("is-pinned",r)}function f(){r=!1,b=!1,i()}function v(){var w;const c=Q();let _="";switch(c){case"guide-resonant":_=C(s,"resonant");break;case"guide-dissonant":_=C(s,"dissonant");break;case"walker-resonant":_=L(s,"resonant");break;case"walker-dissonant":_=L(s,"dissonant");break;case"home":_=k();break;case"home-auth":_=k({isGuest:!1,showConfirm:!1});break;case"home-confirm":_=k({isGuest:!1,showConfirm:!0});break;case"home-guest":_=k({isGuest:!0,showConfirm:!1});break;case"game":default:_=O(s);break}const q=`
             <div class="preview-nav">
                 ${B.map(l=>`
                     <button class="preview-nav__btn ${l.id===c?"preview-nav__btn--active":""}" data-screen="${l.id}">${l.label}</button>
                 `).join("")}
-            </div>`;if(e.innerHTML=`${_}${q}`,u.has(c)){const l=new Set(s.cells.map((n,m)=>n.revealed?m:-1).filter(n=>n>=0));e.querySelectorAll(".grid .cell[data-index]").forEach(n=>{const m=Number(n.dataset.index);o&&(!l.has(m)||p.has(m)||n.classList.add("cell--reveal-anim"))}),p=l,o=!0}else o=!1,p=new Set;i();const h=e.querySelector(".game__qr-hit");h==null||h.addEventListener("mouseenter",()=>{b=!0,i()}),h==null||h.addEventListener("mouseleave",()=>{b=!1,i()}),requestAnimationFrame(()=>{e.querySelectorAll(".cell").forEach(l=>z(l)),D(e)}),(w=e.querySelector(".preview-nav"))==null||w.addEventListener("click",l=>{const n=l.target.closest("[data-screen]");n&&(K(n.dataset.screen),v())}),e.querySelectorAll(".preview-clickable .cell").forEach(l=>{l.addEventListener("click",()=>{const n=Number(l.dataset.index);Number.isNaN(n)||(s.cells[n].revealed=!s.cells[n].revealed,v())})}),e.querySelectorAll(".fullscreen-btn").forEach(l=>{l.addEventListener("click",()=>{var n,m,y;document.fullscreenElement?(y=document.exitFullscreen)==null||y.call(document):(m=(n=document.documentElement).requestFullscreen)==null||m.call(n)})}),t()}e.addEventListener("click",c=>{if(c.target.closest(".game__qr-hit")){c.preventDefault(),r=!r,i();return}r&&(r=!1,i())}),document.addEventListener("keydown",c=>{c.key==="Escape"&&(r||b)&&f()}),g||(document.addEventListener("fullscreenchange",t),g=!0),window.addEventListener("popstate",v),v()}export{ee as initPreview};
+            </div>`;if(e.innerHTML=`${_}${q}`,m.has(c)){const l=new Set(s.cells.map((n,u)=>n.revealed?u:-1).filter(n=>n>=0));e.querySelectorAll(".grid .cell[data-index]").forEach(n=>{const u=Number(n.dataset.index);o&&(!l.has(u)||p.has(u)||n.classList.add("cell--reveal-anim"))}),p=l,o=!0}else o=!1,p=new Set;i();const h=e.querySelector(".game__qr-hit");h==null||h.addEventListener("mouseenter",()=>{b=!0,i()}),h==null||h.addEventListener("mouseleave",()=>{b=!1,i()}),requestAnimationFrame(()=>{e.querySelectorAll(".cell").forEach(l=>z(l)),D(e)}),(w=e.querySelector(".preview-nav"))==null||w.addEventListener("click",l=>{const n=l.target.closest("[data-screen]");n&&(K(n.dataset.screen),v())}),e.querySelectorAll(".preview-clickable .cell").forEach(l=>{l.addEventListener("click",()=>{const n=Number(l.dataset.index);Number.isNaN(n)||(s.cells[n].revealed=!s.cells[n].revealed,v())})}),e.querySelectorAll(".fullscreen-btn").forEach(l=>{l.addEventListener("click",()=>{var n,u,y;document.fullscreenElement?(y=document.exitFullscreen)==null||y.call(document):(u=(n=document.documentElement).requestFullscreen)==null||u.call(n)})}),t()}e.addEventListener("click",c=>{if(c.target.closest(".game__qr-hit")){c.preventDefault(),r=!r,i();return}r&&(r=!1,i())}),document.addEventListener("keydown",c=>{c.key==="Escape"&&(r||b)&&f()}),g||(document.addEventListener("fullscreenchange",t),g=!0),window.addEventListener("popstate",v),v()}export{ee as initPreview};
