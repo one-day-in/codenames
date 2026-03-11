@@ -1,4 +1,4 @@
-import{o as M,a as O,e as k,r as q,b as I}from"./sanitize-CWtCII0P.js";import{t as f,D as y,n as W,b as j,I as F}from"./icons-87ROm5CI.js";import{i as R}from"./initGuestPage-CyJtaoEn.js";import"./keepAlive-BWq9KLr-.js";const x=8;async function J(a){const h=await R(a,{roleType:"guide",invalidParamsHtml:`<div class="waiting-screen">
+import{o as M,a as O,e as k,r as q,b as I}from"./sanitize-CWtCII0P.js";import{t as f,D as y,n as W,b as j,I as F}from"./icons-87ROm5CI.js";import{i as R}from"./initGuestPage-CtWFo0oz.js";import"./keepAlive-D4SXiUrX.js";const x=8;async function J(a){const h=await R(a,{roleType:"guide",invalidParamsHtml:`<div class="waiting-screen">
             <p>${f(y).scanQr}</p>
         </div>`});if(!h)return;const{presence:p,store:c,team:d}=h;let m=!1,g=new Set;function T(i=y){m=!1,g=new Set,a.innerHTML=`<div class="waiting-screen">
             <p>${f(i).waitingLobby}</p>
