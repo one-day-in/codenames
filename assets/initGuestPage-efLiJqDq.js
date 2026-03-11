@@ -1,0 +1,18 @@
+import{t as v,d as _,s as w,D as S,k as y,e as T,f as O,R as m}from"./url-6tX14MqV.js";import{k as h,c as I}from"./sanitize-C6Ej3ODi.js";function R(a){const r=v(a);let o=[];async function e(){var t;try{(t=screen.orientation)!=null&&t.lock&&await screen.orientation.lock("portrait")}catch{}}function c(){let t=document.getElementById("orientation-guard");return t||(t=document.createElement("div"),t.id="orientation-guard",t.className="orientation-guard",t.setAttribute("aria-live","polite"),t.innerHTML=`
+                <div class="orientation-guard__content">
+                    <p class="orientation-guard__title">${r.rotatePortraitTitle}</p>
+                    <p class="orientation-guard__text">${r.rotatePortraitText}</p>
+                </div>
+            `,document.body.appendChild(t)),t}function n(){const t=c(),s=window.matchMedia("(orientation: landscape)").matches;t.classList.toggle("is-visible",s),document.body.classList.toggle("is-orientation-blocked",s)}const i=()=>{document.visibilityState==="visible"&&(e(),n())},u=()=>n(),l=()=>n();return e(),n(),document.addEventListener("visibilitychange",i),window.addEventListener("resize",u),window.addEventListener("orientationchange",l),o=[()=>document.removeEventListener("visibilitychange",i),()=>window.removeEventListener("resize",u),()=>window.removeEventListener("orientationchange",l)],()=>{o.forEach(t=>t())}}function A(a,r){return a==="guide"?r==="resonant"?m.GUIDE_RESONANT:m.GUIDE_DISSONANT:r==="resonant"?m.WALKER_RESONANT:m.WALKER_DISSONANT}function N(a,r,o,e){return a==="walker"?`${O(r,e)} ${o.dreamwalker}<br>${o.controllerTaken.replace(`
+`,"<br>")}`:o[r==="resonant"?"miniTakenResonant":"miniTakenDissonant"].replace(`
+`,"<br>")}async function U(a,{roleType:r,invalidParamsHtml:o}){var k;const{roomId:e,token:c,team:n}=_();if(!e||!c||!n||n!=="resonant"&&n!=="dissonant")return a.innerHTML=o,null;const{data:i,error:u}=await w.from("rooms").select("id, guest_token, language, state").eq("id",e).eq("guest_token",c).maybeSingle(),l=(i==null?void 0:i.language)||S,t=v(l);if(!i||u)return a.innerHTML=`<div class="waiting-screen">
+            <p>${t.wrongLink.replace(`
+`,"<br>")}</p>
+        </div>`,null;const s=A(r,n),g=T(e),d=$(e,s),p=y((k=i==null?void 0:i.state)==null?void 0:k.controllerOwners)[s],b=!!(p&&p!==d),L=p===d?!1:await g.isRoleTaken(s);(b||L)&&(a.innerHTML=`
+            <div class="waiting-screen">
+                <div class="taken-screen">
+                    <p class="taken-screen__icon">🔒</p>
+                    <p class="taken-screen__text">${N(r,n,t,l)}</p>
+                    <button class="lobby__btn" id="forceJoinBtn">${t.forceRejoin}</button>
+                </div>
+            </div>`,await new Promise(E=>{document.getElementById("forceJoinBtn").addEventListener("click",E,{once:!0})})),await D(e,s,d),g.join(s),h(g,s),R(l),document.body.classList.add(`team-${n}`);const f=I(e,{role:s,controllerId:d});return await f.init(),{presence:g,store:f,team:n,roomId:e,presenceRole:s,controllerId:d}}function $(a,r){var e,c;const o=`nw_controller:${a}:${r}`;try{const n=sessionStorage.getItem(o);if(n)return n;const i=((e=crypto.randomUUID)==null?void 0:e.call(crypto))||Math.random().toString(36).slice(2);return sessionStorage.setItem(o,i),i}catch{return((c=crypto.randomUUID)==null?void 0:c.call(crypto))||Math.random().toString(36).slice(2)}}async function D(a,r,o){const{data:e,error:c}=await w.from("rooms").select("state").eq("id",a).maybeSingle();if(c||!(e!=null&&e.state))return;const n={...e.state,controllerOwners:{...y(e.state.controllerOwners),[r]:o}};await w.from("rooms").update({state:n}).eq("id",a)}export{U as i};
