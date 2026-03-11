@@ -1,4 +1,4 @@
-import{o as E,g as S,e as G,r as H,f as I}from"./sanitize-COql25xg.js";import{t as m,D as f,d as O,b as $,g as x,f as M,I as g}from"./icons-BWAyrF8Y.js";import{i as N}from"./initGuestPage-BHgC9IZD.js";import"./keepAlive-B6ekTX_r.js";async function W(t){const v=await N(t,{roleType:"walker",invalidParamsHtml:`<div class="error-screen">
+import{o as E,g as S,e as G,r as H,f as I}from"./sanitize-BvsBQbhd.js";import{t as m,D as f,e as O,d as $,g as x,f as M,I as g}from"./icons-DBgGDpDx.js";import{i as N}from"./initGuestPage-DW3Cm0NK.js";async function U(t){const v=await N(t,{roleType:"walker",invalidParamsHtml:`<div class="error-screen">
             <p>${m(f).wrongLink.replace(`
 `,"<br>")}</p>
         </div>`});if(!v)return;const{presence:b,store:l,team:d}=v;let o=!1,w=new Set;function h(e=f){o=!1,w=new Set,t.innerHTML=`<div class="waiting-screen">
@@ -44,4 +44,4 @@ import{o as E,g as S,e as G,r as H,f as I}from"./sanitize-COql25xg.js";import{t 
             <footer class="screen-footer walker__footer"></footer>
             ${H(e,r)}
         </div>
-    `,t.querySelectorAll(".walker .grid .cell").forEach((n,c)=>{o&&(!_.has(c)||w.has(c)||n.classList.add("cell--reveal-anim"))}),w=_,o=!0,requestAnimationFrame(()=>I(t)),t.querySelectorAll(".cell--clickable").forEach(n=>{n.addEventListener("click",()=>l.reveal(parseInt(n.dataset.index,10)))}),(k=document.getElementById("refreshBtn"))==null||k.addEventListener("click",()=>{i&&l.endTurn()})}function u({state:e,language:r}={}){const a=e??l.getState(),s=r??l.getLanguage();if(!a||a.phase==="lobby"){h(s);return}if(a.gameOver){p(a,s);return}y(a,s)}l.subscribe(u),b.onChange(()=>u()),E(()=>u())}export{W as initWalker};
+    `,t.querySelectorAll(".walker .grid .cell").forEach((n,c)=>{o&&(!_.has(c)||w.has(c)||n.classList.add("cell--reveal-anim"))}),w=_,o=!0,requestAnimationFrame(()=>I(t)),t.querySelectorAll(".cell--clickable").forEach(n=>{n.addEventListener("click",()=>l.reveal(parseInt(n.dataset.index,10)))}),(k=document.getElementById("refreshBtn"))==null||k.addEventListener("click",()=>{i&&l.endTurn()})}function u({state:e,language:r}={}){const a=e??l.getState(),s=r??l.getLanguage();if(!a||a.phase==="lobby"){h(s);return}if(a.gameOver){p(a,s);return}y(a,s)}l.subscribe(u),b.onChange(()=>u()),E(()=>u())}export{U as initWalker};
