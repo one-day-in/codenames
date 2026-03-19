@@ -1,4 +1,4 @@
-import{g as T,e as h,r as y,a as L,b as C,o as S,h as M,i as x,j as A}from"./revealedCells-DKT6lswF.js";import{b as O,f as E,I as p,t as k,D as $}from"./url-BHlpuSFz.js";import{i as G,b as I}from"./initGuestPage-DI-kg4SI.js";import"./entry-GcncORAd.js";import"./roomRepository-CqK91rp1.js";function B({state:e,lang:s,team:d,syncStatus:r}){const t=k(s),i=e.turn,o=i.team===d,v=i.guideLimit!==null,l=o&&v&&!e.gameOver&&!e.turnTransition,u=v?Math.max((i.guideLimit??0)-(i.dreamwalkerMoves??0),0):0,a=O(d,s),m=l?`${t.dreamwalker}: <span class="walker__moves-value">${E(u,s)}</span>`:`${t.dreamwalker}: ${p.x}`;return`
+import{g as y,e as T,r as h,a as L,b as C,o as S,h as M,i as x,j as A}from"./revealedCells-DhaKyj1L.js";import{b as O,f as E,I as p,t as k,D as $}from"./url-Qg2x4s1h.js";import{i as G,b as I}from"./initGuestPage-j4cI67oa.js";import"./entry-BreUzD_f.js";import"./roomRepository-DwKmHnBd.js";function B({state:e,lang:s,team:d,syncStatus:r}){const t=k(s),i=e.turn,o=i.team===d,v=i.guideLimit!==null,l=o&&v&&!e.gameOver&&!e.turnTransition,u=v?Math.max((i.guideLimit??0)-(i.dreamwalkerMoves??0),0):0,a=O(d,s),m=l?`${t.dreamwalker}: <span class="walker__moves-value">${E(u,s)}</span>`:`${t.dreamwalker}: ${p.eyeClosed}`;return`
         <div class="screen-layout walker-layout">
             <header class="screen-header">
                 <div class="walker__header">
@@ -7,7 +7,7 @@ import{g as T,e as h,r as y,a as L,b as C,o as S,h as M,i as x,j as A}from"./rev
                         <div class="${l?"walker__status walker__status--active":"walker__status walker__status--muted"}">${m}</div>
                         <div class="walker__actions">
                             <span class="walker__end-hint">${t.endTurn}</span>
-                            <button class="walker__action-btn walker__refresh-btn ${l?"walker__refresh-btn--active":"walker__refresh-btn--muted"}" id="refreshBtn" aria-label="${t.endTurn}" ${l?"":"disabled"}>${p.refreshCw}</button>
+                            <button class="walker__action-btn walker__refresh-btn ${l?"walker__refresh-btn--active":"walker__refresh-btn--muted"}" id="refreshBtn" aria-label="${t.endTurn}" ${l?"":"disabled"}>${p.x}</button>
                         </div>
                     </div>
                 </div>
@@ -18,10 +18,10 @@ import{g as T,e as h,r as y,a as L,b as C,o as S,h as M,i as x,j as A}from"./rev
                     <div class="grid grid--5">
                         ${e.cells.map((n,_)=>`
                             <div
-                                class="${T(n)} ${l&&!n.revealed?"cell--clickable":""}"
+                                class="${y(n)} ${l&&!n.revealed?"cell--clickable":""}"
                                 data-index="${_}"
                             >
-                                <span class="cell__content">${h(n.word)}</span>
+                                <span class="cell__content">${T(n.word)}</span>
                             </div>
                         `).join("")}
                     </div>
@@ -29,7 +29,7 @@ import{g as T,e as h,r as y,a as L,b as C,o as S,h as M,i as x,j as A}from"./rev
             </main>
 
             <footer class="screen-footer walker__footer"></footer>
-            ${y(r,s)}
+            ${h(r,s)}
             ${L(e,s)}
             ${C({state:e,lang:s,team:d})}
         </div>
