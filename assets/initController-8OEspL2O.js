@@ -1,4 +1,4 @@
-import{C as j,m as ae,e as Y,r as Z,a as ee,g as le,c as se,p as F,d as ce,i as de,o as ue,f as me,n as ne,j as Q,k as X,q as _e,l as ge}from"./turnTransitionDismiss-Di8Zte9-.js";import{t as B,e as O,I as H,f as pe,h as ve,k as fe,D as W,n as ke}from"./roomRepository-DDSKDQUG.js";import"./entry-BoYg6pah.js";function we(e){const n=B(e);let c=[];function l(){const i=Math.min(window.innerWidth,window.innerHeight),t=Math.max(window.innerWidth,window.innerHeight);return window.matchMedia("(pointer: coarse)").matches&&i<=768&&t<=1024}async function p(){var i;if(l())try{(i=screen.orientation)!=null&&i.lock&&await screen.orientation.lock("portrait")}catch{}}function d(){let i=document.getElementById("orientation-guard");return i||(i=document.createElement("div"),i.id="orientation-guard",i.className="orientation-guard",i.setAttribute("aria-live","polite"),i.innerHTML=`
+import{C as j,m as ae,e as Y,r as Z,a as ee,g as le,c as se,p as F,d as ce,i as de,o as ue,f as me,n as ne,j as Q,k as X,q as _e,l as ge}from"./turnTransitionDismiss-DH_DqzL5.js";import{t as B,e as O,I as H,f as pe,h as ve,k as fe,D as W,n as ke}from"./roomRepository-DDSKDQUG.js";import"./entry-BbpE39gS.js";function we(e){const n=B(e);let c=[];function l(){const i=Math.min(window.innerWidth,window.innerHeight),t=Math.max(window.innerWidth,window.innerHeight);return window.matchMedia("(pointer: coarse)").matches&&i<=768&&t<=1024}async function p(){var i;if(l())try{(i=screen.orientation)!=null&&i.lock&&await screen.orientation.lock("portrait")}catch{}}function d(){let i=document.getElementById("orientation-guard");return i||(i=document.createElement("div"),i.id="orientation-guard",i.className="orientation-guard",i.setAttribute("aria-live","polite"),i.innerHTML=`
                 <div class="orientation-guard__content">
                     <p class="orientation-guard__title">${n.rotatePortraitTitle}</p>
                     <p class="orientation-guard__text">${n.rotatePortraitText}</p>
@@ -48,7 +48,6 @@ import{C as j,m as ae,e as Y,r as Z,a as ee,g as le,c as se,p as F,d as ce,i as 
                     <div class="guide__title ${t?"guide__title--active":"guide__title--muted"}">${h}</div>
                     <div class="player__meta ${t?"player__meta--active":"player__meta--muted"}">${y}</div>
                     ${P}
-                    <div class="guide__btns ${t?"guide__btns--active":"guide__btns--muted"}">${C}</div>
                 </div>
             </header>
 
@@ -64,7 +63,9 @@ import{C as j,m as ae,e as Y,r as Z,a as ee,g as le,c as se,p as F,d as ce,i as 
                 </div>
             </main>
 
-            <footer class="screen-footer guide__footer"></footer>
+            <footer class="screen-footer guide__footer">
+                <div class="guide__btns ${t?"guide__btns--active":"guide__btns--muted"}">${C}</div>
+            </footer>
             ${Z(e,n,{suppressedTransitionId:d})}
             ${ee({state:e,lang:n,team:c})}
             ${v}
